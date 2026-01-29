@@ -12,27 +12,27 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
 
       <View style={styles.metaRow}>
         {exercise.level && <Chip text={exercise.level.toUpperCase()} />}
-        {exercise.equipment && <Chip text={exercise.equipment} />}
-        {exercise.mechanic && <Chip text={exercise.mechanic} />}
+        {exercise.equipment && <Chip text={exercise.equipment.toUpperCase()} />}
+        {exercise.mechanic && <Chip text={exercise.mechanic.toUpperCase()} />}
       </View>
 
-      <Text style={styles.sectionTitle}>Primary muscles</Text>
+      <Text style={styles.sectionTitle}>Muscles trained</Text>
       <View style={styles.metaRow}>
-        {exercise.primaryMuscles.map((muscle) => (
-          <Chip key={muscle} text={muscle} />
-        ))}
-      </View>
+        <View style={styles.metaRow}>
+          {exercise.primaryMuscles.map((muscle) => (
+            <Chip key={muscle} text={muscle.toUpperCase()} primary />
+          ))}
+        </View>
 
-      {exercise.secondaryMuscles.length > 0 && (
-        <View>
-          <Text style={styles.sectionTitle}>Secondary muscles</Text>
+        {/* Secondary muscles */}
+        {exercise.secondaryMuscles.length > 0 && (
           <View style={styles.metaRow}>
             {exercise.secondaryMuscles.map((muscle) => (
-              <Chip key={muscle} text={muscle} />
+              <Chip key={muscle} text={muscle.toUpperCase()} secondary />
             ))}
           </View>
-        </View>
-      )}
+        )}
+      </View>
 
       <Button
         onPress={() => setviewInstructions(!viewInstructions)}
