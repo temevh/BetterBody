@@ -1,8 +1,7 @@
-import { Exercise } from "../types";
+import { Exercise, Level } from "../types";
 const data = require("../../exercises.json");
 
 const muscles = [
-  //const exercises = data.JSON.stringify();
   "triceps",
   "biceps",
   "chest",
@@ -12,9 +11,8 @@ const muscles = [
   "middle back",
 ];
 const category = "strength";
-const level = "beginner";
 
-export const getExercise = (): Exercise[] => {
+export const getExercise = (level: Level): Exercise[] => {
   const result: Exercise[] = [];
 
   for (const muscle of muscles) {

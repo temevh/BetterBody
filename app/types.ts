@@ -19,7 +19,7 @@ enum Force {
   Push = "push",
 }
 
-enum Level {
+export enum Level {
   Beginner = "beginner",
   Intermediate = "intermediate",
   Expert = "expert",
