@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, ScrollView, StyleSheet, View } from "react-native";
-import { Exercise, Level } from "../types";
+import { Exercise, Force, Level } from "../types";
 import { ExeriseCard } from "./components/ExerciseCard";
 import { SelectionCard } from "./components/SelectionCard";
 import { getExercise } from "./utils";
@@ -8,21 +8,33 @@ import { getExercise } from "./utils";
 export default function HomeScreen() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [level, setLevel] = useState<Level>(Level.Beginner);
-
-  useEffect(() => {
-    console.log(exercises);
-  }, [exercises]);
+  const [force, setForce] = useState<Force>(Force.Static);
 
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.metaRow}>
         {Object.values(Level).map((lvl) => (
-          <SelectionCard key={lvl} option={lvl} onPress={() => setLevel(lvl)} />
+          <SelectionCard
+            key={lvl}
+            option={lvl}
+            onPress={() => setLevel(lvl)}
+            selected={lvl === level}
+          />
+        ))}
+      </View>
+      <View style={styles.metaRow}>
+        {Object.values(Force).map((fc) => (
+          <SelectionCard
+            key={fc}
+            option={fc}
+            onPress={() => setForce(fc)}
+            selected={fc === force}
+          />
         ))}
       </View>
       <Button
         title="Generate"
-        onPress={() => setExercises(getExercise(level))}
+        onPress={() => setExercises(getExercise(level, force))}
       ></Button>
       <ScrollView>
         {exercises.length > 0 &&

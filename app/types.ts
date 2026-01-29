@@ -13,7 +13,7 @@ export interface Exercise {
 }
 
 // Enums
-enum Force {
+export enum Force {
   Static = "static",
   Pull = "pull",
   Push = "push",
