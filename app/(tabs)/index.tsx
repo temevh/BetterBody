@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, View } from "react-native";
+import { Button, ScrollView, View } from "react-native";
 import { Exercise } from "../types";
 import { ExeriseCard } from "./components/ExerciseCard";
 import { getExercise } from "./utils";
@@ -12,15 +12,17 @@ export default function HomeScreen() {
   }, [exercises]);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Button
         title="press me"
         onPress={() => setExercises(getExercise())}
       ></Button>
-      {exercises.length > 0 &&
-        exercises.map((ex) => {
-          return <ExeriseCard exercise={ex} key={ex.id} />;
-        })}
+      <ScrollView>
+        {exercises.length > 0 &&
+          exercises.map((ex) => {
+            return <ExeriseCard exercise={ex} key={ex.id} />;
+          })}
+      </ScrollView>
     </View>
   );
 }
