@@ -1,4 +1,5 @@
 import { Exercise } from "@/app/types";
+import { Image } from "expo-image";
 import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Chip } from "./Chip";
@@ -6,32 +7,31 @@ import { Chip } from "./Chip";
 export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
   const [viewInstructions, setviewInstructions] = useState(false);
 
+  const blurhash =
+    "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{exercise.name}</Text>
+      <View style={styles.iconRow}>
+        <View>
+          <Text style={styles.title}>{exercise.name}</Text>
 
-      <View style={styles.metaRow}>
-        {exercise.level && <Chip text={exercise.level.toUpperCase()} />}
-        {exercise.equipment && <Chip text={exercise.equipment.toUpperCase()} />}
-        {exercise.mechanic && <Chip text={exercise.mechanic.toUpperCase()} />}
-      </View>
-
-      <Text style={styles.sectionTitle}>Muscles trained</Text>
-      <View style={styles.metaRow}>
-        <View style={styles.metaRow}>
-          {exercise.primaryMuscles.map((muscle) => (
-            <Chip key={muscle} text={muscle.toUpperCase()} primary />
-          ))}
-        </View>
-
-        {/* Secondary muscles */}
-        {exercise.secondaryMuscles.length > 0 && (
           <View style={styles.metaRow}>
-            {exercise.secondaryMuscles.map((muscle) => (
-              <Chip key={muscle} text={muscle.toUpperCase()} secondary />
-            ))}
+            {exercise.level && <Chip text={exercise.level.toUpperCase()} />}
+            {exercise.equipment && (
+              <Chip text={exercise.equipment.toUpperCase()} />
+            )}
+            {exercise.mechanic && (
+              <Chip text={exercise.mechanic.toUpperCase()} />
+            )}
           </View>
-        )}
+        </View>
+        <Image
+          style={styles.image}
+          source={require("../../../assets/images/biceps.png")}
+          placeholder={{ blurhash }}
+          contentFit="cover"
+          transition={1000}
+        />{" "}
       </View>
 
       <Button
@@ -53,6 +53,14 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
 };
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#0553",
+  },
+  iconRow: {
+    gap: 0,
+  },
   card: {
     backgroundColor: "gray",
     borderRadius: 16,

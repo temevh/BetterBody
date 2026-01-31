@@ -19,6 +19,12 @@ export enum Force {
   Push = "push",
 }
 
+export enum Split {
+  FullBody = "Full body",
+  UpperLower = "Upper/Lower",
+  PPL = "PPL",
+}
+
 export enum Level {
   Beginner = "beginner",
   Intermediate = "intermediate",

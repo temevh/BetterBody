@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, ScrollView, StyleSheet, View } from "react-native";
-import { Exercise, Force, Level } from "../types";
+import { Exercise, Force, Level, Split } from "../types";
 import { ExeriseCard } from "./components/ExerciseCard";
 import { SelectionCard } from "./components/SelectionCard";
 import { getExercise } from "./utils";
@@ -9,6 +9,7 @@ export default function HomeScreen() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [level, setLevel] = useState<Level>(Level.Beginner);
   const [force, setForce] = useState<Force>(Force.Static);
+  const [split, setSplit] = useState<Split>(Split.FullBody);
 
   return (
     <View style={{ flex: 1 }}>
@@ -22,6 +23,7 @@ export default function HomeScreen() {
           />
         ))}
       </View>
+      {/* 
       <View style={styles.metaRow}>
         {Object.values(Force).map((fc) => (
           <SelectionCard
@@ -29,6 +31,17 @@ export default function HomeScreen() {
             option={fc}
             onPress={() => setForce(fc)}
             selected={fc === force}
+          />
+        ))}
+      </View>
+          */}
+      <View style={styles.metaRow}>
+        {Object.values(Split).map((sp) => (
+          <SelectionCard
+            key={sp}
+            option={sp}
+            onPress={() => setSplit(sp)}
+            selected={sp === split}
           />
         ))}
       </View>
