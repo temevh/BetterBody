@@ -12,7 +12,7 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
   return (
     <View style={styles.card}>
       <View style={styles.iconRow}>
-        <View>
+        <View style={styles.infoContainer}>
           <Text style={styles.title}>{exercise.name}</Text>
 
           <View style={styles.metaRow}>
@@ -27,11 +27,14 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
         </View>
         <Image
           style={styles.image}
+          /*source={{
+            uri: `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images[0]}`,
+          }}*/
           source={require("../../../assets/images/biceps.png")}
           placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={1000}
-        />{" "}
+          contentFit="contain"
+          transition={100}
+        />
       </View>
 
       <Button
@@ -54,12 +57,18 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "#0553",
+    width: 100,
+    height: 100,
+    borderRadius: 8,
   },
   iconRow: {
-    gap: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
+  },
+  infoContainer: {
+    flex: 1,
   },
   card: {
     backgroundColor: "gray",
