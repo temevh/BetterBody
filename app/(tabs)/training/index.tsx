@@ -1,8 +1,23 @@
-import { StyleSheet } from "react-native";
+import { Level, Split } from "@/app/types";
+import { useState } from "react";
 import { Settings } from "./Settings";
 
 export default function TrainingScreen() {
-  return <Settings />;
-}
+  const [settings, setSettings] = useState({
+    level: Level.Beginner,
+    split: Split.FullBody,
+    daysPerWeek: 3,
+  });
 
-const styles = StyleSheet.create({});
+  const onGenerate = () => {
+    console.log(settings);
+  };
+
+  return (
+    <Settings
+      settings={settings}
+      setSettings={setSettings}
+      onGenerate={onGenerate}
+    />
+  );
+}

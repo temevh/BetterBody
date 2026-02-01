@@ -80,3 +80,10 @@ enum Category {
   Strongman = "strongman",
   Plyometrics = "plyometrics",
 }
+
+//Types
+export type SettingsState = {
+  level: Level;
+  split: Split;
+  daysPerWeek: number;
+};

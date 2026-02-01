@@ -1,15 +1,17 @@
 import { Colors } from "@/app/theme";
-import { Level, Split } from "@/app/types";
+import { Level, SettingsState, Split } from "@/app/types";
 import { ArrowLeft, Sparkles } from "lucide-react-native";
-import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
-export function Settings() {
-  const [settings, setSettings] = useState({
-    level: "beginner",
-    split: "Full body",
-    daysPerWeek: 3,
-  });
+export function Settings({
+  settings,
+  setSettings,
+  onGenerate,
+}: {
+  settings: { level: Level; split: Split; daysPerWeek: number };
+  setSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
+  onGenerate: () => void;
+}) {
   const levels: Level[] = [Level.Beginner, Level.Intermediate, Level.Expert];
 
   const splits: { id: Split; label: string }[] = [
@@ -17,7 +19,6 @@ export function Settings() {
     { id: Split.UpperLower, label: "Upper / Lower" },
     { id: Split.PPL, label: "Push / Pull / Legs" },
   ];
-  [];
 
   return (
     <View style={styles.container}>
@@ -28,7 +29,6 @@ export function Settings() {
         </Pressable>
 
         <Text style={styles.title}>Workout Settings</Text>
-        <Text style={styles.subtitle}>Customize your workout plan</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -116,7 +116,7 @@ export function Settings() {
 
       {/* Generate */}
       <View style={styles.footer}>
-        <Pressable style={styles.generateButton} onPress={() => {}}>
+        <Pressable style={styles.generateButton} onPress={onGenerate}>
           <Sparkles size={22} color="white" />
           <Text style={styles.generateText}>Generate Workout</Text>
         </Pressable>
@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     padding: 24,
-    paddingBottom: 32,
+    paddingBottom: 14,
   },
   backButton: {
     marginBottom: 24,
@@ -140,11 +140,6 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     color: Colors.textPrimary,
-  },
-  subtitle: {
-    marginTop: 8,
-    color: Colors.textSecondary,
-    fontSize: 16,
   },
   content: {
     paddingHorizontal: 24,
@@ -172,12 +167,12 @@ export const styles = StyleSheet.create({
   },
   optionLarge: {
     width: "100%",
-    paddingVertical: 20,
+    paddingVertical: 16,
     borderRadius: 16,
     backgroundColor: Colors.surface,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   optionActive: {
     backgroundColor: Colors.training,
