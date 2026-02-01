@@ -1,8 +1,8 @@
+import { Chip } from "@/app/components/Chip";
 import { Exercise } from "@/app/types";
 import { Image } from "expo-image";
 import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { Chip } from "./Chip";
 
 export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
   const [viewInstructions, setviewInstructions] = useState(false);
