@@ -1,22 +1,41 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-export const SectionCard = ({ section }: { section: string }) => {
+const cardColor: Record<string, string> = {
+  Training: "red",
+  Meals: "green",
+  Stretching: "blue",
+  Metrics: "orange",
+};
+
+export const SectionCard = ({
+  section,
+  onPress,
+}: {
+  section: string;
+  onPress: () => void;
+}) => {
   return (
-    <View style={styles.card}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.card, { backgroundColor: cardColor[section] }]}
+    >
       <Text style={styles.text}>{section}</Text>
-    </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    width: 220,
-    height: 30,
-    backgroundColor: "red",
+    width: 150,
+    height: 150,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
+    textAlign: "center",
     color: "white",
     fontWeight: "bold",
-    fontSize: 22,
+    fontSize: 28,
   },
 });
