@@ -16,7 +16,7 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
           <Text style={styles.title}>{exercise.name}</Text>
 
           <View style={styles.metaRow}>
-            {exercise.level && <Chip text={exercise.level.toUpperCase()} />}
+            {/*exercise.level && <Chip text={exercise.level.toUpperCase()} />*/}
             {exercise.equipment && (
               <Chip text={exercise.equipment.toUpperCase()} />
             )}
@@ -25,24 +25,21 @@ export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
             )}
           </View>
         </View>
-        <Image
-          style={styles.image}
-          /*source={{
-            uri: `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images[0]}`,
-          }}*/
-          source={require("../../../assets/images/biceps.png")}
-          placeholder={{ blurhash }}
-          contentFit="contain"
-          transition={100}
-        />
       </View>
 
       <Button
         onPress={() => setviewInstructions(!viewInstructions)}
-        title="Instructions"
+        title="Instructions and details"
       ></Button>
       {viewInstructions && (
-        <View>
+        <View style={styles.infoContainer}>
+          <Image
+            style={styles.image}
+            source={require("../../../assets/images/biceps.png")}
+            placeholder={{ blurhash }}
+            contentFit="contain"
+            transition={100}
+          />
           {exercise.instructions.map((step, index) => (
             <View key={index} style={styles.instructionRow}>
               <Text style={styles.stepIndex}>{index + 1}.</Text>
