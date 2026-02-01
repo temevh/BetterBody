@@ -8,6 +8,10 @@ export const Colors = {
   textSecondary: "#9CA3AF", // gray
   gold: "#FACC15",
   silver: "#E5E7EB",
+  training: "#EF4444",
+  meals: "#22C55E",
+  stretching: "#06B6D4",
+  metrics: "#A855F7",
 };
 
 export const Spacing = {

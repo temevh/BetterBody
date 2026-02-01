@@ -1,11 +1,12 @@
 import { Pressable, StyleSheet, Text } from "react-native";
+import { Colors, FontSizes } from "../theme";
 
-const cardColor: Record<string, string> = {
-  Training: "red",
-  Meals: "green",
-  Stretching: "blue",
-  Metrics: "orange",
-};
+export const SectionColors = {
+  Training: Colors.training,
+  Meals: Colors.meals,
+  Stretching: Colors.stretching,
+  Metrics: Colors.metrics,
+} as const;
 
 export const SectionCard = ({
   section,
@@ -17,7 +18,7 @@ export const SectionCard = ({
   return (
     <Pressable
       onPress={onPress}
-      style={[styles.card, { backgroundColor: cardColor[section] }]}
+      style={[styles.card, { backgroundColor: SectionColors[section] }]}
     >
       <Text style={styles.text}>{section}</Text>
     </Pressable>
@@ -36,6 +37,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     fontWeight: "bold",
-    fontSize: 28,
+    fontSize: FontSizes.xl,
   },
 });

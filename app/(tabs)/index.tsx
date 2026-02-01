@@ -4,6 +4,13 @@ import { SectionCard } from "../components/SectionCard";
 
 const sections = ["Training", "Meals", "Stretching", "Metrics"] as const;
 
+const sectionRoutes = {
+  Training: "/(tabs)/training",
+  Meals: "/(tabs)/meals",
+  Stretching: "/(tabs)/stretching",
+  Metrics: "/(tabs)/metrics",
+} as const;
+
 export default function HomeScreen() {
   const router = useRouter();
 
@@ -13,7 +20,7 @@ export default function HomeScreen() {
         <View key={section} style={styles.item}>
           <SectionCard
             section={section}
-            onPress={() => router.push(`/(tabs)/${section.toLowerCase()}`)}
+            onPress={() => router.push(sectionRoutes[section])}
           />
         </View>
       ))}
