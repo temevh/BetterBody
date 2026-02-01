@@ -1,5 +1,5 @@
 import { Colors } from "@/app/theme";
-import { Level, SettingsState, Split } from "@/app/types";
+import { Goal, Level, SettingsState, Split } from "@/app/types";
 import { ArrowLeft, Sparkles } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -8,7 +8,7 @@ export function Settings({
   setSettings,
   onGenerate,
 }: {
-  settings: { level: Level; split: Split; daysPerWeek: number };
+  settings: SettingsState;
   setSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   onGenerate: () => void;
 }) {
@@ -19,6 +19,8 @@ export function Settings({
     { id: Split.UpperLower, label: "Upper / Lower" },
     { id: Split.PPL, label: "Push / Pull / Legs" },
   ];
+
+  const goals: Goal[] = [Goal.Muscle, Goal.Strengh];
 
   return (
     <View style={styles.container}>
@@ -32,6 +34,32 @@ export function Settings({
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
+        <View>
+          <Text style={styles.label}>Goal</Text>
+          <View style={styles.row}>
+            {goals.map((goal) => {
+              const active = settings.goal === goal;
+              return (
+                <Pressable
+                  key={goal}
+                  onPress={() => {
+                    setSettings((prev) => ({ ...prev, goal }));
+                  }}
+                  style={[styles.optionMedium, active && styles.optionActive]}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      active && styles.optionTextActive,
+                    ]}
+                  >
+                    {goal}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
         {/* Level */}
         <View>
           <Text style={styles.label}>Experience Level</Text>
@@ -164,6 +192,15 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     alignItems: "center",
     justifyContent: "center",
+  },
+  optionMedium: {
+    width: "50%",
+    paddingVertical: 16,
+    borderRadius: 16,
+    backgroundColor: Colors.surface,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
   },
   optionLarge: {
     width: "100%",

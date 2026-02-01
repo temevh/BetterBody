@@ -1,74 +1,12 @@
-/*import { Exercise } from "@/app/types";
-import { ArrowLeft, Check, Dumbbell, RefreshCw } from "lucide-react";
+import { Colors } from "@/app/theme";
+import { Exercise, SettingsState } from "@/app/types";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-export function WorkoutGenerator() {
+export function Generator({ settings }: { settings: SettingsState }) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
-  const generateExercises = () => {
-    const exercisesPerDay =
-      settings.goal === "strength" ? 4 : settings.goal === "muscle" ? 5 : 4;
-    const selectedMuscles = muscleGroups.slice(
-      0,
-      Math.min(exercisesPerDay, muscleGroups.length),
-    );
-
-    const newExercises: Exercise[] = selectedMuscles.map((muscle, index) => {
-      const muscleExercises =
-        exerciseDatabase[muscle as keyof typeof exerciseDatabase];
-      const randomExercise =
-        muscleExercises[Math.floor(Math.random() * muscleExercises.length)];
-      const reps = randomExercise[settings.difficulty];
-
-      return {
-        id: `${muscle}-${index}-${Date.now()}`,
-        name: randomExercise.name,
-        muscle: muscle.charAt(0).toUpperCase() + muscle.slice(1),
-        equipment: randomExercise.equipment,
-        sets: parseInt(reps.split("x")[0]),
-        reps: reps.split("x")[1],
-        selected: false,
-      };
-    });
-
-    setExercises(newExercises);
-  };
-
-  const rerollExercise = (muscle: string) => {
-    const muscleExercises =
-      exerciseDatabase[muscle.toLowerCase() as keyof typeof exerciseDatabase];
-    const currentExercise = exercises.find((ex) => ex.muscle === muscle);
-    const availableExercises = muscleExercises.filter(
-      (ex) => ex.name !== currentExercise?.name,
-    );
-    const randomExercise =
-      availableExercises[Math.floor(Math.random() * availableExercises.length)];
-    const reps = randomExercise[settings.difficulty];
-
-    setExercises(
-      exercises.map((ex) =>
-        ex.muscle === muscle
-          ? {
-              ...ex,
-              id: `${muscle.toLowerCase()}-${Date.now()}`,
-              name: randomExercise.name,
-              equipment: randomExercise.equipment,
-              sets: parseInt(reps.split("x")[0]),
-              reps: reps.split("x")[1],
-            }
-          : ex,
-      ),
-    );
-  };
-
-  const toggleSelect = (id: string) => {
-    setExercises(
-      exercises.map((ex) =>
-        ex.id === id ? { ...ex, selected: !ex.selected } : ex,
-      ),
-    );
-  };
+  const generateExercises = () => {};
 
   useEffect(() => {
     generateExercises();
@@ -85,35 +23,29 @@ export function WorkoutGenerator() {
     };
     return colors[muscle] || "bg-neutral-700";
   };
-    
+
   return (
-    <View className="flex flex-col min-h-screen bg-neutral-900">
-      {/* Header *
-      <View className="p-6 pb-4">
-        <button
-          onClick={onBack}
-          className="mb-6 text-neutral-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-6 h-6" strokeWidth={2} />
-        </button>
-        <h1 className="text-3xl text-white mb-2">Your Workout</h1>
-        <View className="flex items-center gap-4 text-sm text-neutral-400">
-          <span className="capitalize">{settings.difficulty}</span>
-          <span>•</span>
-          <span className="capitalize">
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Your Workout</Text>
+
+        <View style={styles.metaRow}>
+          <Text style={styles.metaText}>{settings.level}</Text>
+          <Text style={styles.metaDot}>•</Text>
+          <Text style={styles.metaText}>
             {settings.goal === "muscle"
               ? "Muscle Building"
               : settings.goal === "strength"
                 ? "Strength"
                 : "Fitness"}
-          </span>
-          <span>•</span>
-          <span>{settings.daysPerWeek}x/week</span>
+          </Text>
+          <Text style={styles.metaDot}>•</Text>
+          <Text style={styles.metaText}>{settings.daysPerWeek}x/week</Text>
         </View>
       </View>
 
-      {/* Exercise Cards *
       <View className="flex-1 px-6 pb-6 space-y-3 overflow-auto">
+        {/* 
         {exercises.map((exercise) => (
           <View
             key={exercise.id}
@@ -179,9 +111,9 @@ export function WorkoutGenerator() {
             </View>
           </View>
         ))}
+        */}
       </View>
-
-      {/* Regenerate All Button 
+      {/* 
       <View className="p-6 bg-gradient-to-t from-neutral-900 via-neutral-900 to-transparent">
         <button
           onClick={generateExercises}
@@ -191,6 +123,38 @@ export function WorkoutGenerator() {
           <span>Regenerate All</span>
         </button>
       </View>
+        */}
     </View>
   );
-}*/
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  header: {
+    padding: 24,
+    paddingBottom: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: Colors.textPrimary,
+    marginBottom: 8,
+  },
+  metaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8, // RN 0.71+
+  },
+  metaText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    textTransform: "capitalize",
+  },
+  metaDot: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+});

@@ -31,6 +31,11 @@ export enum Level {
   Expert = "expert",
 }
 
+export enum Goal {
+  Muscle = "muscle",
+  Strengh = "strength",
+}
+
 enum Mechanic {
   Isolation = "isolation",
   Compound = "compound",
@@ -86,4 +91,5 @@ export type SettingsState = {
   level: Level;
   split: Split;
   daysPerWeek: number;
+  goal: Goal;
 };
