@@ -14,6 +14,15 @@ export const Colors = {
   metrics: "#A855F7",
 };
 
+export const MuscleColors = {
+  chest: "#3B82F6",
+  back: "#10B981",
+  legs: "#8B5CF6",
+  shoulders: "#F97316",
+  biceps: "#EC4899",
+  core: "#F59E0B",
+};
+
 export const Spacing = {
   xs: 4,
   sm: 8,
