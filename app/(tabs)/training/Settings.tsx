@@ -2,6 +2,7 @@ import { Colors } from "@/app/theme";
 import { Goal, Level, SettingsState, Split } from "@/app/types";
 import { ArrowLeft, Sparkles } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { GlobalStyles } from "../../styles";
 
 export function Settings({
   settings,
@@ -23,14 +24,14 @@ export function Settings({
   const goals: Goal[] = [Goal.Muscle, Goal.Strengh];
 
   return (
-    <View style={styles.container}>
+    <View style={GlobalStyles.container}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={GlobalStyles.header}>
         <Pressable onPress={() => {}} style={styles.backButton}>
           <ArrowLeft size={24} color="#9CA3AF" />
         </Pressable>
 
-        <Text style={styles.title}>Workout Settings</Text>
+        <Text style={GlobalStyles.title}>Workout Settings</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -144,34 +145,25 @@ export function Settings({
 
       {/* Generate */}
       <View style={styles.footer}>
-        <Pressable style={styles.generateButton} onPress={onGenerate}>
+        <Pressable
+          style={[GlobalStyles.button, { backgroundColor: Colors.training }]}
+          onPress={onGenerate}
+        >
           <Sparkles size={22} color="white" />
-          <Text style={styles.generateText}>Generate Workout</Text>
+          <Text style={GlobalStyles.buttonText}>Generate Workout</Text>
         </Pressable>
       </View>
     </View>
   );
 }
 
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  header: {
-    padding: 24,
-    paddingBottom: 14,
-  },
+const styles = StyleSheet.create({
   backButton: {
     marginBottom: 24,
   },
-  title: {
-    fontSize: 28,
-    color: Colors.textPrimary,
-  },
   content: {
     paddingHorizontal: 24,
-    paddingBottom: 40,
+    paddingBottom: 40, 
     rowGap: 32,
   },
   label: {
@@ -194,7 +186,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   optionMedium: {
-    width: "50%",
+    width: "48%",
     paddingVertical: 16,
     borderRadius: 16,
     backgroundColor: Colors.surface,
@@ -218,6 +210,7 @@ export const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontWeight: "500",
     textTransform: "capitalize",
+    fontSize: 16, 
   },
   optionTextActive: {
     color: Colors.textPrimary,
@@ -226,10 +219,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    gap: 4,
+    gap: 8, 
   },
   day: {
-    width: 40,
+    width: 40, 
     height: 40,
     borderRadius: 12,
     backgroundColor: Colors.surface,
@@ -239,19 +232,7 @@ export const styles = StyleSheet.create({
   footer: {
     padding: 24,
     backgroundColor: Colors.background,
-  },
-  generateButton: {
-    backgroundColor: Colors.training,
-    paddingVertical: 20,
-    borderRadius: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 8,
-  },
-  generateText: {
-    color: "#F9FAFB",
-    fontWeight: "600",
-    fontSize: 16,
+    borderTopWidth: 1,
+    borderTopColor: Colors.surface, 
   },
 });

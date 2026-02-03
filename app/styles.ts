@@ -1,0 +1,58 @@
+import { StyleSheet } from "react-native";
+import { Colors } from "./theme";
+
+export const GlobalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  header: {
+    padding: 24,
+    paddingBottom: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: Colors.textPrimary,
+    marginBottom: 8,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  card: {
+    marginHorizontal: 12,
+    borderRadius: 20,
+    marginBottom: 8,
+    backgroundColor: Colors.surface,
+  },
+  cardContent: {
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  textSecondary: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  buttonText: {
+    color: Colors.textPrimary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+});

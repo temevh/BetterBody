@@ -1,114 +1,135 @@
-import { Chip } from "@/app/components/Chip";
+import { Colors, MuscleColors } from "@/app/theme";
 import { Exercise } from "@/app/types";
-import { Image } from "expo-image";
-import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Check, Dumbbell, RefreshCcw } from "lucide-react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { GlobalStyles } from "../../styles";
 
-export const ExeriseCard = ({ exercise }: { exercise: Exercise }) => {
-  const [viewInstructions, setviewInstructions] = useState(false);
+interface ExerciseCardProps {
+  exercise: Exercise;
+  selected: boolean;
+  onToggle: () => void;
+}
 
-  const blurhash =
-    "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
+export const ExerciseCard = ({ exercise, selected, onToggle }: ExerciseCardProps) => {
+  const getMuscleColor = (muscle: string) => {
+    const color = (MuscleColors as Record<string, string>)[muscle];
+    return color ?? "#404040";
+  };
+
+  const muscleColor = getMuscleColor(exercise.primaryMuscles[0]);
+
   return (
-    <View style={styles.card}>
-      <View style={styles.iconRow}>
-        <View style={styles.infoContainer}>
-          <Text style={styles.title}>{exercise.name}</Text>
+    <View style={GlobalStyles.card}>
+      <View style={GlobalStyles.cardContent}>
+        <View style={styles.cardLeft}>
+          <View style={styles.muscleRow}>
+            <View
+              style={[
+                GlobalStyles.dot,
+                {
+                  backgroundColor: muscleColor,
+                },
+              ]}
+            />
+            <Text
+              style={[
+                styles.muscleText,
+                selected && styles.textSelectedMuted,
+              ]}
+            >
+              {exercise.primaryMuscles[0]}
+            </Text>
+          </View>
 
-          <View style={styles.metaRow}>
-            {/*exercise.level && <Chip text={exercise.level.toUpperCase()} />*/}
-            {exercise.equipment && (
-              <Chip text={exercise.equipment.toUpperCase()} />
-            )}
-            {exercise.mechanic && (
-              <Chip text={exercise.mechanic.toUpperCase()} />
-            )}
+          <Text style={styles.exerciseName}>{exercise.name}</Text>
+
+          <View style={styles.equipmentRow}>
+            <Dumbbell
+              size={16}
+              color={selected ? "#fff" : Colors.textSecondary}
+            />
+            <Text style={styles.equipmentText}>
+              {exercise.equipment?.toUpperCase()}
+            </Text>
           </View>
         </View>
-      </View>
 
-      <Button
-        onPress={() => setviewInstructions(!viewInstructions)}
-        title="Instructions and details"
-      ></Button>
-      {viewInstructions && (
-        <View style={styles.infoContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/biceps.png")}
-            placeholder={{ blurhash }}
-            contentFit="contain"
-            transition={100}
-          />
-          {exercise.instructions.map((step, index) => (
-            <View key={index} style={styles.instructionRow}>
-              <Text style={styles.stepIndex}>{index + 1}.</Text>
-              <Text style={styles.stepText}>{step}</Text>
-            </View>
-          ))}
+        <View style={styles.actions}>
+          <Pressable
+            onPress={onToggle}
+            style={[
+              styles.iconButton,
+              selected && styles.iconButtonSelected,
+            ]}
+          >
+            <Check size={22} color="#fff" />
+          </Pressable>
+          <Pressable
+            onPress={() => {}}
+            style={[
+              styles.iconButton,
+              selected && styles.iconButtonSelected,
+            ]}
+          >
+            <RefreshCcw size={22} color="#fff" />
+          </Pressable>
         </View>
-      )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
+  cardLeft: {
+    flex: 1,
   },
-  iconRow: {
+  muscleRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    gap: 16,
+    marginBottom: 8,
+    gap: 8,
   },
-  infoContainer: {
-    flex: 1,
+  muscleText: {
+    fontSize: 10,
+    textTransform: "uppercase",
+    color: Colors.textSecondary,
+    letterSpacing: 1,
   },
-  card: {
-    backgroundColor: "gray",
-    borderRadius: 16,
-    padding: 20,
-    marginVertical: 12,
-    marginHorizontal: 16,
-  },
-
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    marginBottom: 12,
-  },
-
-  metaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 12,
-  },
-
-  sectionTitle: {
-    color: "#FFFFFF",
-    fontSize: 14,
+  exerciseName: {
+    fontSize: 16,
+    color: "#fff",
+    marginBottom: 8,
     fontWeight: "600",
-    marginBottom: 6,
   },
-
-  instructionRow: {
+  equipmentRow: {
     flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
     marginBottom: 8,
   },
-
-  stepIndex: {
-    color: "#9CA3AF",
-    marginRight: 6,
-    fontWeight: "600",
+  equipmentText: {
+    fontSize: 12,
+    color: Colors.textSecondary,
   },
-
-  stepText: {
-    color: "#E5E7EB",
-    flex: 1,
-    lineHeight: 20,
+  actions: {
+    justifyContent: "center",
+    marginLeft: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    backgroundColor: "#404040",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconButtonSelected: {
+    backgroundColor: "rgba(255,255,255,0.25)",
+  },
+  textSelectedMuted: {
+    color: "rgba(255,255,255,0.7)",
   },
 });
