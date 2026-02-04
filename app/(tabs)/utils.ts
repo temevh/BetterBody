@@ -17,10 +17,13 @@ export const getExercise = (
   goal: Goal,
   split: Split,
   days: number,
+  targetMuscle?: string
 ): Exercise[] => {
   const result: Exercise[] = [];
+  
+  const musclesToProcess = targetMuscle ? [targetMuscle] : muscles;
 
-  for (const muscle of muscles) {
+  for (const muscle of musclesToProcess) {
     const matchingPrimary = data.filter(
       (entry: Exercise) => entry.primaryMuscles[0] === muscle,
     );
@@ -31,6 +34,7 @@ export const getExercise = (
     const levelMatch = categoryMatch.filter(
       (entry: Exercise) => entry.level === level,
     );
+    
     const random = levelMatch[Math.floor(Math.random() * levelMatch.length)];
 
     if (random) {

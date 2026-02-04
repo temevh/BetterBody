@@ -8,9 +8,10 @@ interface ExerciseCardProps {
   exercise: Exercise;
   selected: boolean;
   onToggle: () => void;
+  onRegenerate: () => void;
 }
 
-export const ExerciseCard = ({ exercise, selected, onToggle }: ExerciseCardProps) => {
+export const ExerciseCard = ({ exercise, selected, onToggle, onRegenerate }: ExerciseCardProps) => {
   const getMuscleColor = (muscle: string) => {
     const color = (MuscleColors as Record<string, string>)[muscle];
     return color ?? "#404040";
@@ -65,7 +66,7 @@ export const ExerciseCard = ({ exercise, selected, onToggle }: ExerciseCardProps
             <Check size={22} color="#fff" />
           </Pressable>
           <Pressable
-            onPress={() => {}}
+            onPress={onRegenerate}
             style={[
               styles.iconButton,
               selected && styles.iconButtonSelected,

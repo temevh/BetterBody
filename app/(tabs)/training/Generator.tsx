@@ -22,6 +22,32 @@ export function Generator({ settings }: { settings: SettingsState }) {
     setSelectedIds(new Set(result.map((e) => e.id)));
   };
 
+  const generateSingleExercise = ({ muscle, id }: { muscle: string; id: string }) => {
+    console.log("regenerate", muscle, id);
+    const result = getExercise(
+      settings.level,
+      settings.goal,
+      settings.split,
+      settings.daysPerWeek,
+      muscle
+    );
+    if (result.length > 0) {
+      const newExercise = result[0];
+      setExercises((prev) =>
+        prev.map((ex) => (ex.id === id ? newExercise : ex))
+      );
+
+      if (selectedIds.has(id)) {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            next.delete(id);
+            next.add(newExercise.id);
+            return next;
+        })
+      }
+    }
+  };
+
   useEffect(() => {
     generateExercises();
   }, []);
@@ -69,6 +95,12 @@ export function Generator({ settings }: { settings: SettingsState }) {
             exercise={exercise}
             selected={isSelected(exercise.id)}
             onToggle={() => toggleSelect(exercise.id)}
+            onRegenerate={() =>
+              generateSingleExercise({
+                muscle: exercise.primaryMuscles[0],
+                id: exercise.id,
+              })
+            }
           />
         ))}
       </ScrollView>
