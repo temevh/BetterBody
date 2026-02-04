@@ -1,8 +1,9 @@
-import { Colors, MuscleColors } from "@/app/theme";
+import { GlobalStyles } from "@/app/styles";
+import { Colors } from "@/app/theme";
 import { Exercise } from "@/app/types";
-import { Check, Dumbbell, RefreshCcw } from "lucide-react-native";
+import { Dumbbell, RefreshCcw } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../styles";
+import { getMuscleColor } from "../../utils";
 
 interface ExerciseCardProps {
   exercise: Exercise;
@@ -11,12 +12,12 @@ interface ExerciseCardProps {
   onRegenerate: () => void;
 }
 
-export const ExerciseCard = ({ exercise, selected, onToggle, onRegenerate }: ExerciseCardProps) => {
-  const getMuscleColor = (muscle: string) => {
-    const color = (MuscleColors as Record<string, string>)[muscle];
-    return color ?? "#404040";
-  };
-
+export const ExerciseCard = ({
+  exercise,
+  selected,
+  onToggle,
+  onRegenerate,
+}: ExerciseCardProps) => {
   const muscleColor = getMuscleColor(exercise.primaryMuscles[0]);
 
   return (
@@ -33,10 +34,7 @@ export const ExerciseCard = ({ exercise, selected, onToggle, onRegenerate }: Exe
               ]}
             />
             <Text
-              style={[
-                styles.muscleText,
-                selected && styles.textSelectedMuted,
-              ]}
+              style={[styles.muscleText, selected && styles.textSelectedMuted]}
             >
               {exercise.primaryMuscles[0]}
             </Text>
@@ -56,21 +54,17 @@ export const ExerciseCard = ({ exercise, selected, onToggle, onRegenerate }: Exe
         </View>
 
         <View style={styles.actions}>
+          {/* 
           <Pressable
             onPress={onToggle}
-            style={[
-              styles.iconButton,
-              selected && styles.iconButtonSelected,
-            ]}
+            style={[styles.iconButton, selected && styles.iconButtonSelected]}
           >
             <Check size={22} color="#fff" />
           </Pressable>
+          */}
           <Pressable
             onPress={onRegenerate}
-            style={[
-              styles.iconButton,
-              selected && styles.iconButtonSelected,
-            ]}
+            style={[styles.iconButton, selected && styles.iconButtonSelected]}
           >
             <RefreshCcw size={22} color="#fff" />
           </Pressable>
@@ -117,7 +111,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8
+    gap: 8,
   },
   iconButton: {
     width: 40,

@@ -6,6 +6,8 @@ export const Colors = {
   surface: "#111827", // card background
   textPrimary: "#F9FAFB", // white
   textSecondary: "#9CA3AF", // gray
+  cancel: "red",
+  succeed: "green",
   gold: "#FACC15",
   silver: "#E5E7EB",
   training: "#EF4444",

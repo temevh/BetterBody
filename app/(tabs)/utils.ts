@@ -1,3 +1,4 @@
+import { MuscleColors } from "../theme";
 import { Exercise, Goal, Level, Split } from "../types";
 const data = require("../../exercises.json");
 
@@ -17,10 +18,10 @@ export const getExercise = (
   goal: Goal,
   split: Split,
   days: number,
-  targetMuscle?: string
+  targetMuscle?: string,
 ): Exercise[] => {
   const result: Exercise[] = [];
-  
+
   const musclesToProcess = targetMuscle ? [targetMuscle] : muscles;
 
   for (const muscle of musclesToProcess) {
@@ -34,7 +35,7 @@ export const getExercise = (
     const levelMatch = categoryMatch.filter(
       (entry: Exercise) => entry.level === level,
     );
-    
+
     const random = levelMatch[Math.floor(Math.random() * levelMatch.length)];
 
     if (random) {
@@ -43,4 +44,9 @@ export const getExercise = (
   }
 
   return result;
+};
+
+export const getMuscleColor = (muscle: string) => {
+  const color = (MuscleColors as Record<string, string>)[muscle];
+  return color ?? "#404040";
 };

@@ -10,6 +10,17 @@ export const GlobalStyles = StyleSheet.create({
     padding: 24,
     paddingBottom: 16,
   },
+  text: {
+    color: Colors.textPrimary,
+    fontSize: 16,
+    fontWeight: "600",
+    flex: 1,
+  },
+  subHeaderText: {
+    color: Colors.textSecondary,
+    fontSize: 14,
+    fontWeight: "500",
+  },
   title: {
     fontSize: 28,
     fontWeight: "600",
@@ -49,10 +60,26 @@ export const GlobalStyles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
   },
+  smallIconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    backgroundColor: "#262626",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   buttonText: {
     color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: "600",
   },
-
+  textInput: {
+    flex: 1,
+    height: 36,
+    backgroundColor: "#262626",
+    borderRadius: 8,
+    textAlign: "center",
+    color: Colors.textPrimary,
+    fontSize: 10,
+  },
 });

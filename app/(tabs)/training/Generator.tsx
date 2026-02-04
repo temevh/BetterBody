@@ -5,9 +5,14 @@ import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../styles";
 import { getExercise } from "../utils";
-import { ExerciseCard } from "./ExerciseCard";
+import { ExerciseCard } from "./components/ExerciseCard";
 
-export function Generator({ settings }: { settings: SettingsState }) {
+type GeneratorProps = {
+  settings: SettingsState;
+  setWorkout: (exercises: Exercise[]) => void;
+};
+
+export function Generator({ settings, setWorkout }: GeneratorProps) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
@@ -22,28 +27,38 @@ export function Generator({ settings }: { settings: SettingsState }) {
     setSelectedIds(new Set(result.map((e) => e.id)));
   };
 
-  const generateSingleExercise = ({ muscle, id }: { muscle: string; id: string }) => {
+  const saveWorkout = () => {
+    setWorkout(exercises);
+  };
+
+  const generateSingleExercise = ({
+    muscle,
+    id,
+  }: {
+    muscle: string;
+    id: string;
+  }) => {
     console.log("regenerate", muscle, id);
     const result = getExercise(
       settings.level,
       settings.goal,
       settings.split,
       settings.daysPerWeek,
-      muscle
+      muscle,
     );
     if (result.length > 0) {
       const newExercise = result[0];
       setExercises((prev) =>
-        prev.map((ex) => (ex.id === id ? newExercise : ex))
+        prev.map((ex) => (ex.id === id ? newExercise : ex)),
       );
 
       if (selectedIds.has(id)) {
         setSelectedIds((prev) => {
-            const next = new Set(prev);
-            next.delete(id);
-            next.add(newExercise.id);
-            return next;
-        })
+          const next = new Set(prev);
+          next.delete(id);
+          next.add(newExercise.id);
+          return next;
+        });
       }
     }
   };
@@ -51,10 +66,6 @@ export function Generator({ settings }: { settings: SettingsState }) {
   useEffect(() => {
     generateExercises();
   }, []);
-
-  useEffect(() => {
-    console.log(exercises);
-  }, [exercises]);
 
   const toggleSelect = (id: string) => {
     setSelectedIds((prev) => {
@@ -72,7 +83,12 @@ export function Generator({ settings }: { settings: SettingsState }) {
         <Text style={GlobalStyles.title}>Your Workout</Text>
 
         <View style={[GlobalStyles.row, { gap: 8 }]}>
-          <Text style={[GlobalStyles.textSecondary, { textTransform: "capitalize" }]}>
+          <Text
+            style={[
+              GlobalStyles.textSecondary,
+              { textTransform: "capitalize" },
+            ]}
+          >
             {settings.level}
           </Text>
           <Text style={GlobalStyles.textSecondary}>•</Text>
@@ -84,7 +100,9 @@ export function Generator({ settings }: { settings: SettingsState }) {
                 : "Fitness"}
           </Text>
           <Text style={GlobalStyles.textSecondary}>•</Text>
-          <Text style={GlobalStyles.textSecondary}>{settings.daysPerWeek}x/week</Text>
+          <Text style={GlobalStyles.textSecondary}>
+            {settings.daysPerWeek}x/week
+          </Text>
         </View>
       </View>
 
@@ -108,14 +126,20 @@ export function Generator({ settings }: { settings: SettingsState }) {
       <View style={styles.buttonContainer}>
         <Pressable
           onPress={generateExercises}
-          style={[GlobalStyles.button, { flex: 1, backgroundColor: Colors.surface }]}
+          style={[
+            GlobalStyles.button,
+            { flex: 1, backgroundColor: Colors.surface },
+          ]}
         >
           <RefreshCw size={20} color={Colors.textPrimary} />
           <Text style={GlobalStyles.buttonText}>Regenerate</Text>
         </Pressable>
         <Pressable
-          onPress={() => {}}
-          style={[GlobalStyles.button, { flex: 1, backgroundColor: Colors.training }]}
+          onPress={saveWorkout}
+          style={[
+            GlobalStyles.button,
+            { flex: 1, backgroundColor: Colors.training },
+          ]}
         >
           <SaveAllIcon size={20} color={Colors.textPrimary} />
           <Text style={GlobalStyles.buttonText}>Save Workout</Text>
@@ -126,10 +150,10 @@ export function Generator({ settings }: { settings: SettingsState }) {
 }
 
 const styles = StyleSheet.create({
-    buttonContainer: {
+  buttonContainer: {
     flexDirection: "row",
     gap: 12,
     marginVertical: 10,
     marginHorizontal: 12,
   },
-})
+});
