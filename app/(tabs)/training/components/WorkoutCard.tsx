@@ -27,8 +27,23 @@ export default function WorkoutCard({
   toggleSet,
   addSet,
 }: WorkoutCardProps) {
+  const allCompleted = logs[exercise.id].every((log) => {
+    return log.completed === true;
+  });
+
+  console.log(logs[exercise.id], exercise);
+  console.log(allCompleted);
   return (
-    <View key={exercise.id} style={[GlobalStyles.card, { padding: 16 }]}>
+    <View
+      key={exercise.id}
+      style={[
+        GlobalStyles.card,
+        {
+          padding: 16,
+          backgroundColor: allCompleted ? Colors.succeed : Colors.surface,
+        },
+      ]}
+    >
       <View style={[, { flexDirection: "row", alignItems: "center", gap: 8 }]}>
         <View
           style={[
@@ -51,12 +66,18 @@ export default function WorkoutCard({
           Set
         </Text>
         <Text
-          style={[GlobalStyles.subHeaderText, { flex: 1, textAlign: "center" }]}
+          style={[
+            GlobalStyles.subHeaderText,
+            { width: 160, textAlign: "center" },
+          ]}
         >
           kg
         </Text>
         <Text
-          style={[GlobalStyles.subHeaderText, { flex: 1, textAlign: "center" }]}
+          style={[
+            GlobalStyles.subHeaderText,
+            { width: 140, textAlign: "center" },
+          ]}
         >
           Reps
         </Text>
@@ -88,27 +109,35 @@ export default function WorkoutCard({
           <TextInput
             style={[
               GlobalStyles.textInput,
+              { width: 120, flex: 0 },
               set.completed && styles.inputCompleted,
             ]}
             placeholder="-"
             placeholderTextColor={Colors.textSecondary}
             keyboardType="numeric"
             value={set.weight}
-            onChangeText={(text) =>
-              updateSet(exercise.id, index, "weight", text)
-            }
+            onChangeText={(text) => {
+              if (/^\d*\.?\d*$/.test(text)) {
+                updateSet(exercise.id, index, "weight", text);
+              }
+            }}
           />
 
           <TextInput
             style={[
               GlobalStyles.textInput,
+              { width: 120, flex: 0 },
               set.completed && styles.inputCompleted,
             ]}
             placeholder="-"
             placeholderTextColor={Colors.textSecondary}
             keyboardType="numeric"
             value={set.reps}
-            onChangeText={(text) => updateSet(exercise.id, index, "reps", text)}
+            onChangeText={(text) => {
+              if (/^\d*$/.test(text)) {
+                updateSet(exercise.id, index, "reps", text);
+              }
+            }}
           />
 
           <Pressable

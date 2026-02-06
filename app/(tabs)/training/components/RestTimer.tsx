@@ -31,7 +31,7 @@ const RestTimer = ({
 
   return (
     <View
-      style={[GlobalStyles.card, { paddingHorizontal: 10, paddingVertical: 6 }]}
+      style={[GlobalStyles.card, { paddingHorizontal: 20, paddingVertical: 6 }]}
     >
       <Text style={GlobalStyles.subHeaderText}>Rest</Text>
       <Text style={GlobalStyles.textLarge}>

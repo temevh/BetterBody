@@ -86,6 +86,6 @@ export const GlobalStyles = StyleSheet.create({
     borderRadius: 8,
     textAlign: "center",
     color: Colors.textPrimary,
-    fontSize: 10,
+    fontSize: 16,
   },
 });

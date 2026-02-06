@@ -1,6 +1,7 @@
+import { Colors } from "@/app/theme";
 import { Exercise } from "@/app/types";
 import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../styles";
 import RestTimer from "./components/RestTimer";
 import WorkoutCard from "./components/WorkoutCard";
@@ -57,6 +58,7 @@ export function Workout({ workout }: WorkoutProps) {
       };
       return { ...prev, [exerciseId]: exerciseLogs };
     });
+    console.log(logs);
     setRest(150);
     setTimerKey((prev) => prev + 1);
   };
@@ -76,7 +78,7 @@ export function Workout({ workout }: WorkoutProps) {
 
   return (
     <View style={GlobalStyles.container}>
-      <View style={GlobalStyles.header}>
+      <View style={[GlobalStyles.header, { paddingHorizontal: 12 }]}>
         <View
           style={{
             flexDirection: "row",
@@ -98,7 +100,7 @@ export function Workout({ workout }: WorkoutProps) {
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
         {workout.map((exercise) => (
           <WorkoutCard
             key={exercise.id}
@@ -109,7 +111,37 @@ export function Workout({ workout }: WorkoutProps) {
             addSet={addSet}
           />
         ))}
+        <Pressable style={styles.saveWorkoutButton}>
+          <Text style={GlobalStyles.textLarge}>Save workout</Text>
+        </Pressable>
+        <Pressable style={styles.cancelWorkoutButton}>
+          <Text style={[GlobalStyles.subHeaderText, { color: "white" }]}>
+            Cancel workout
+          </Text>
+        </Pressable>
       </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  saveWorkoutButton: {
+    width: "95%",
+    backgroundColor: Colors.succeed,
+    marginVertical: 10,
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 6,
+    borderRadius: 12,
+  },
+  cancelWorkoutButton: {
+    width: "50%",
+    backgroundColor: Colors.cancel,
+    marginVertical: 4,
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 6,
+    borderRadius: 12,
+    opacity: 0.8,
+  },
+});
