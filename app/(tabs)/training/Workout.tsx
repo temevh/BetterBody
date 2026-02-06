@@ -58,7 +58,6 @@ export function Workout({ workout }: WorkoutProps) {
       };
       return { ...prev, [exerciseId]: exerciseLogs };
     });
-    console.log(logs);
     setRest(150);
     setTimerKey((prev) => prev + 1);
   };

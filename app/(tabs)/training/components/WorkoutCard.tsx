@@ -1,11 +1,14 @@
 import { GlobalStyles } from "@/app/styles";
 import { Colors } from "@/app/theme";
-import { Check, Plus } from "lucide-react-native";
+import { Check, Info, Plus } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Exercise } from "@/app/types";
+import { useState } from "react";
 import { getMuscleColor } from "../../utils";
 import { SetLog } from "../Workout";
+
+import ExerciseInfoModal from "./ExerciseInfoModal";
 
 interface WorkoutCardProps {
   exercise: Exercise;
@@ -27,12 +30,12 @@ export default function WorkoutCard({
   toggleSet,
   addSet,
 }: WorkoutCardProps) {
+  const [showInfo, setShowInfo] = useState(false);
+
   const allCompleted = logs[exercise.id].every((log) => {
     return log.completed === true;
   });
 
-  console.log(logs[exercise.id], exercise);
-  console.log(allCompleted);
   return (
     <View
       key={exercise.id}
@@ -41,9 +44,15 @@ export default function WorkoutCard({
         {
           padding: 16,
           backgroundColor: allCompleted ? Colors.succeed : Colors.surface,
+          opacity: allCompleted ? 0.8 : 1,
         },
       ]}
     >
+      <ExerciseInfoModal
+        exercise={exercise}
+        visible={showInfo}
+        onClose={() => setShowInfo(false)}
+      />
       <View style={[, { flexDirection: "row", alignItems: "center", gap: 8 }]}>
         <View
           style={[
@@ -54,6 +63,13 @@ export default function WorkoutCard({
           ]}
         />
         <Text style={GlobalStyles.text}>{exercise.name} </Text>
+        <Pressable
+          onPress={() => {
+            setShowInfo(!showInfo);
+          }}
+        >
+          <Info size={24} color={Colors.textSecondary} />
+        </Pressable>
       </View>
 
       <View style={[GlobalStyles.row, { gap: 12, height: 30 }]}>
