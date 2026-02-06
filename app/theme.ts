@@ -3,7 +3,7 @@ export const Colors = {
   primary: "#EC4899", // pink
   secondary: "#3B82F6", // blue
   background: "#1F2937", // dark gray
-  surface: "#111827", // card background
+  surface: "#636d86b0", // card background
   textPrimary: "#F9FAFB", // white
   textSecondary: "#9CA3AF", // gray
   cancel: "red",

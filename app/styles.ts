@@ -16,6 +16,12 @@ export const GlobalStyles = StyleSheet.create({
     fontWeight: "600",
     flex: 1,
   },
+  textLarge: {
+    color: Colors.textPrimary,
+    fontSize: 22,
+    fontWeight: "bold",
+    flex: 1,
+  },
   subHeaderText: {
     color: Colors.textSecondary,
     fontSize: 14,

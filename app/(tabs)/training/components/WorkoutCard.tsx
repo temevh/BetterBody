@@ -38,12 +38,10 @@ export default function WorkoutCard({
             },
           ]}
         />
-        <Text style={GlobalStyles.text}>{exercise.name}</Text>
+        <Text style={GlobalStyles.text}>{exercise.name} </Text>
       </View>
 
-      <View
-        style={[GlobalStyles.row, { gap: 12, marginBottom: 8, height: 40 }]}
-      >
+      <View style={[GlobalStyles.row, { gap: 12, height: 30 }]}>
         <Text
           style={[
             GlobalStyles.subHeaderText,
@@ -70,7 +68,7 @@ export default function WorkoutCard({
           key={set.id}
           style={[
             GlobalStyles.row,
-            { gap: 12, marginBottom: 8, height: 40 },
+            { gap: 16, marginBottom: 2, height: 40 },
             set.completed && { opacity: 0.8 },
           ]}
         >

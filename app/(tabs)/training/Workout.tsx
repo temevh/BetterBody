@@ -1,8 +1,8 @@
-import { Colors } from "@/app/theme";
 import { Exercise } from "@/app/types";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { GlobalStyles } from "../../styles";
+import RestTimer from "./components/RestTimer";
 import WorkoutCard from "./components/WorkoutCard";
 
 export interface SetLog {
@@ -17,6 +17,9 @@ interface WorkoutProps {
 }
 
 export function Workout({ workout }: WorkoutProps) {
+  const [rest, setRest] = useState<number>(150);
+  const [timerKey, setTimerKey] = useState<number>(0);
+
   const [logs, setLogs] = useState<Record<string, SetLog[]>>(() => {
     const initialLogs: Record<string, SetLog[]> = {};
     workout.forEach((exercise) => {
@@ -54,6 +57,8 @@ export function Workout({ workout }: WorkoutProps) {
       };
       return { ...prev, [exerciseId]: exerciseLogs };
     });
+    setRest(150);
+    setTimerKey((prev) => prev + 1);
   };
 
   const addSet = (exerciseId: string) => {
@@ -72,7 +77,22 @@ export function Workout({ workout }: WorkoutProps) {
   return (
     <View style={GlobalStyles.container}>
       <View style={GlobalStyles.header}>
-        <Text style={GlobalStyles.title}>Current Workout</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={GlobalStyles.title}>Current Workout</Text>
+          <RestTimer
+            key={timerKey}
+            duration={rest}
+            onCancel={() => {
+              setRest(150);
+            }}
+          />
+        </View>
         <Text style={GlobalStyles.textSecondary}>
           {workout.length} Exercises
         </Text>
@@ -93,92 +113,3 @@ export function Workout({ workout }: WorkoutProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  exerciseCard: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: 12,
-    marginBottom: 12,
-    borderRadius: 16,
-    padding: 16,
-  },
-  exerciseHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 16,
-  },
-  exerciseName: {
-    color: Colors.textPrimary,
-    fontSize: 16,
-    fontWeight: "600",
-    flex: 1,
-  },
-  setRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    marginBottom: 8,
-    height: 40,
-  },
-  setCompleted: {
-    opacity: 0.8,
-  },
-  headerText: {
-    color: Colors.textSecondary,
-    fontSize: 12,
-    fontWeight: "500",
-  },
-  setNumberContainer: {
-    width: 30,
-    height: 30,
-    borderRadius: 6,
-    backgroundColor: "#262626",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  setNumber: {
-    color: Colors.textSecondary,
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  input: {
-    flex: 1,
-    height: 36,
-    backgroundColor: "#262626",
-    borderRadius: 8,
-    textAlign: "center",
-    color: Colors.textPrimary,
-    fontSize: 10,
-  },
-  inputCompleted: {
-    backgroundColor: "rgba(34, 197, 94, 0.1)",
-    color: Colors.meals,
-  },
-  checkButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    backgroundColor: "#262626",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkButtonCompleted: {
-    backgroundColor: Colors.meals,
-  },
-  addSetButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    marginTop: 8,
-    paddingVertical: 8,
-    backgroundColor: "#262626",
-    borderRadius: 8,
-  },
-  addSetText: {
-    color: Colors.textSecondary,
-    fontSize: 12,
-    fontWeight: "600",
-  },
-});
