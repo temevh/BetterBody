@@ -1,6 +1,6 @@
 import { GlobalStyles } from "@/app/styles";
 import { Colors } from "@/app/theme";
-import { Check, Info, Plus } from "lucide-react-native";
+import { Check, Info, Plus, Trash2 } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Exercise } from "@/app/types";
@@ -21,6 +21,7 @@ interface WorkoutCardProps {
   ) => void;
   toggleSet: (exerciseId: string, index: number) => void;
   addSet: (exerciseId: string) => void;
+  deleteSet: (exerciseId: string, index: number) => void;
 }
 
 export default function WorkoutCard({
@@ -29,12 +30,23 @@ export default function WorkoutCard({
   updateSet,
   toggleSet,
   addSet,
+  deleteSet,
 }: WorkoutCardProps) {
   const [showInfo, setShowInfo] = useState(false);
+  const [bin, setBin] = useState<number>(0);
 
   const allCompleted = logs[exercise.id].every((log) => {
     return log.completed === true;
   });
+
+  const removeSet = (index: number) => {
+    if (bin === index + 1) {
+      deleteSet(exercise.id, index);
+      setBin(0);
+    } else {
+      setBin(index + 1);
+    }
+  };
 
   return (
     <View
@@ -109,18 +121,35 @@ export default function WorkoutCard({
             set.completed && { opacity: 0.8 },
           ]}
         >
-          <View
+          <Pressable
+            onPress={() => {
+              removeSet(index);
+            }}
             style={[
               styles.setNumberContainer,
-              set.completed && { backgroundColor: Colors.meals },
+              {
+                backgroundColor:
+                  bin === index + 1
+                    ? Colors.cancel
+                    : set.completed
+                      ? Colors.meals
+                      : "#262626",
+              },
             ]}
           >
-            <Text
-              style={[styles.setNumber, set.completed && { color: "#fff" }]}
-            >
-              {index + 1}
-            </Text>
-          </View>
+            {bin === index + 1 ? (
+              <Trash2 size={16} color="white" />
+            ) : (
+              <Text
+                style={[
+                  styles.setNumber,
+                  (set.completed || bin === index + 1) && { color: "#fff" },
+                ]}
+              >
+                {index + 1}
+              </Text>
+            )}
+          </Pressable>
 
           <TextInput
             style={[
@@ -193,7 +222,7 @@ const styles = StyleSheet.create({
   },
   setNumber: {
     color: Colors.textSecondary,
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: "600",
   },
   inputCompleted: {

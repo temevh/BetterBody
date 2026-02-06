@@ -3,6 +3,7 @@ import { Exercise } from "@/app/types";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../styles";
+import Completed from "./Completed";
 import RestTimer from "./components/RestTimer";
 import WorkoutCard from "./components/WorkoutCard";
 
@@ -35,6 +36,8 @@ export function Workout({ workout }: WorkoutProps) {
     });
     return initialLogs;
   });
+
+  const [completed, setCompleted] = useState(false);
 
   const updateSet = (
     exerciseId: string,
@@ -75,6 +78,22 @@ export function Workout({ workout }: WorkoutProps) {
     });
   };
 
+  const deleteSet = (exerciseId: string, index: number) => {
+    setLogs((prev) => {
+      const exerciseLogs = [...(prev[exerciseId] || [])];
+      exerciseLogs.splice(index, 1);
+      return { ...prev, [exerciseId]: exerciseLogs };
+    });
+  };
+
+  const saveWorkout = () => {
+    setCompleted(true);
+  };
+
+  if (completed) {
+    return <Completed logs={logs} />;
+  }
+
   return (
     <View style={GlobalStyles.container}>
       <View style={[GlobalStyles.header, { paddingHorizontal: 12 }]}>
@@ -99,7 +118,7 @@ export function Workout({ workout }: WorkoutProps) {
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 20, gap: 10 }}>
         {workout.map((exercise) => (
           <WorkoutCard
             key={exercise.id}
@@ -108,10 +127,11 @@ export function Workout({ workout }: WorkoutProps) {
             updateSet={updateSet}
             toggleSet={toggleSet}
             addSet={addSet}
+            deleteSet={deleteSet}
           />
         ))}
-        <Pressable style={styles.saveWorkoutButton}>
-          <Text style={GlobalStyles.textLarge}>Save workout</Text>
+        <Pressable style={styles.saveWorkoutButton} onPress={saveWorkout}>
+          <Text style={GlobalStyles.textLarge}>Complete workout</Text>
         </Pressable>
         <Pressable style={styles.cancelWorkoutButton}>
           <Text style={[GlobalStyles.subHeaderText, { color: "white" }]}>
@@ -127,7 +147,7 @@ const styles = StyleSheet.create({
   saveWorkoutButton: {
     width: "95%",
     backgroundColor: Colors.succeed,
-    marginVertical: 10,
+    marginVertical: 4,
     alignSelf: "center",
     alignItems: "center",
     padding: 6,
@@ -136,7 +156,7 @@ const styles = StyleSheet.create({
   cancelWorkoutButton: {
     width: "50%",
     backgroundColor: Colors.cancel,
-    marginVertical: 4,
+    marginVertical: 2,
     alignSelf: "center",
     alignItems: "center",
     padding: 6,
