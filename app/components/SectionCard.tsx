@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react-native";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { Colors, FontSizes } from "../theme";
 
@@ -11,15 +12,25 @@ export const SectionColors = {
 export const SectionCard = ({
   section,
   onPress,
+  Icon,
 }: {
   section: string;
   onPress: () => void;
+  Icon: LucideIcon;
 }) => {
   return (
     <Pressable
       onPress={onPress}
-      style={[styles.card, { backgroundColor: SectionColors[section] }]}
+      style={({ pressed }) => [
+        styles.card,
+        {
+          backgroundColor: SectionColors[section as keyof typeof SectionColors],
+          opacity: pressed ? 0.9 : 1,
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        },
+      ]}
     >
+      <Icon size={48} color="white" strokeWidth={2} style={styles.icon} />
       <Text style={styles.text}>{section}</Text>
     </Pressable>
   );
@@ -27,16 +38,28 @@ export const SectionCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: 150,
-    height: 150,
-    borderRadius: 12,
+    width: 160,
+    height: 160,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  icon: {
+    marginBottom: 12,
   },
   text: {
     textAlign: "center",
     color: "white",
     fontWeight: "bold",
-    fontSize: FontSizes.xl,
+    fontSize: FontSizes.large,
+    letterSpacing: 0.5,
   },
 });

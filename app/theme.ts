@@ -1,19 +1,20 @@
 // theme.ts
 export const Colors = {
-  primary: "#EC4899", // pink
-  secondary: "#3B82F6", // blue
-  background: "#1F2937", // dark gray
-  surface: "#636d86b0", // card background
-  textPrimary: "#F9FAFB", // white
-  textSecondary: "#9CA3AF", // gray
-  cancel: "red",
-  succeed: "green",
-  gold: "#FACC15",
-  silver: "#E5E7EB",
-  training: "#EF4444",
-  meals: "#22C55E",
-  stretching: "#06B6D4",
-  metrics: "#A855F7",
+  primary: "#6366f1", // Indigo 500
+  secondary: "#a1a1aa", // Zinc 400
+  background: "#09090b", // Zinc 950
+  surface: "#4c4c53ff", // Zinc 900
+  surfaceHighlight: "#27272a", // Zinc 800
+  textPrimary: "#f4f4f5", // Zinc 100
+  textSecondary: "#a1a1aa", // Zinc 400
+  cancel: "#ef4444", // Red 500
+  succeed: "#22c55e", // Green 500
+  gold: "#eab308", // Yellow 500
+  silver: "#d4d4d8", // Zinc 300
+  training: "#f43f5e", // Rose 500
+  meals: "#10b981", // Emerald 500
+  stretching: "#06b6d4", // Cyan 500
+  metrics: "#a855f7", // Purple 500
 };
 
 export const MuscleColors = {

@@ -70,7 +70,7 @@ export const GlobalStyles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 8,
-    backgroundColor: "#262626",
+    backgroundColor: Colors.surfaceHighlight,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -82,7 +82,7 @@ export const GlobalStyles = StyleSheet.create({
   textInput: {
     flex: 1,
     height: 36,
-    backgroundColor: "#262626",
+    backgroundColor: Colors.surfaceHighlight,
     borderRadius: 8,
     textAlign: "center",
     color: Colors.textPrimary,

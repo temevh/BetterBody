@@ -1,15 +1,19 @@
 import { useRouter } from "expo-router";
+import {
+  Activity,
+  ChartNoAxesColumn,
+  Dumbbell,
+  Utensils,
+} from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 import { SectionCard } from "../components/SectionCard";
 
-const sections = ["Training", "Meals", "Stretching", "Metrics"] as const;
-
-const sectionRoutes = {
-  Training: "/(tabs)/training",
-  Meals: "/(tabs)/meals",
-  Stretching: "/(tabs)/stretching",
-  Metrics: "/(tabs)/metrics",
-} as const;
+const sections = [
+  { name: "Training", icon: Dumbbell, route: "/(tabs)/training" },
+  { name: "Meals", icon: Utensils, route: "/(tabs)/meals" },
+  { name: "Stretching", icon: Activity, route: "/(tabs)/stretching" },
+  { name: "Metrics", icon: ChartNoAxesColumn, route: "/(tabs)/metrics" },
+] as const;
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -17,10 +21,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       {sections.map((section) => (
-        <View key={section} style={styles.item}>
+        <View key={section.name} style={styles.item}>
           <SectionCard
-            section={section}
-            onPress={() => router.push(sectionRoutes[section])}
+            section={section.name}
+            Icon={section.icon}
+            onPress={() => router.push(section.route as any)}
           />
         </View>
       ))}
@@ -31,14 +36,16 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
-    justifyContent: "center",
+    paddingTop: 80,
+    justifyContent: "flex-start",
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: 20,
+    paddingHorizontal: 20,
   },
   item: {
-    width: "50%",
+    width: "47%", // slightly less than 50% to account for gap
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 10,
   },
 });
