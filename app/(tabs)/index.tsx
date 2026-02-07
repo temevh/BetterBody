@@ -1,3 +1,4 @@
+import { supabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import {
   Activity,
@@ -5,8 +6,12 @@ import {
   Dumbbell,
   Utensils,
 } from "lucide-react-native";
-import { StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 import { SectionCard } from "../_components/SectionCard";
+import { GlobalStyles } from "../_styles";
+import { Colors } from "../_theme";
+import Auth from "./onboarding/Auth";
 
 const sections = [
   { name: "Training", icon: Dumbbell, route: "/(tabs)/training" },
@@ -17,6 +22,25 @@ const sections = [
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    console.log(session);
+  }, []);
+
+  if (!session) return <Auth />;
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error(error);
+  }
 
   return (
     <View style={styles.container}>
@@ -29,6 +53,12 @@ export default function HomeScreen() {
           />
         </View>
       ))}
+      <Pressable
+        onPress={signOut}
+        style={[GlobalStyles.button, { backgroundColor: Colors.cancel }]}
+      >
+        Sign out
+      </Pressable>
     </View>
   );
 }
