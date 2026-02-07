@@ -1,11 +1,11 @@
-import { GlobalStyles } from "@/app/styles";
-import { Colors } from "@/app/theme";
+import { GlobalStyles } from "@/app/_styles";
+import { Colors } from "@/app/_theme";
 import { Check, Info, Plus, Trash2 } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { Exercise } from "@/app/types";
+import { Exercise } from "@/app/_types";
 import { useState } from "react";
-import { getMuscleColor } from "../../utils";
+import { getMuscleColor } from "../../../../utils/utils";
 import { SetLog } from "../Workout";
 
 import ExerciseInfoModal from "./ExerciseInfoModal";
@@ -70,7 +70,7 @@ export default function WorkoutCard({
           style={[
             GlobalStyles.dot,
             {
-              backgroundColor: getMuscleColor(exercise.primaryMuscles[0]),
+              backgroundColor: getMuscleColor(exercise.primary_muscles[0]),
             },
           ]}
         />

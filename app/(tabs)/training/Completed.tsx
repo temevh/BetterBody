@@ -1,5 +1,5 @@
-import { GlobalStyles } from "@/app/styles";
-import { Colors } from "@/app/theme";
+import { GlobalStyles } from "@/app/_styles";
+import { Colors } from "@/app/_theme";
 import { useRouter } from "expo-router";
 import { CheckCircle2, Save, Trophy } from "lucide-react-native";
 import { Pressable, ScrollView, Text, View } from "react-native";
@@ -162,6 +162,7 @@ const Completed = ({ logs }: CompletedProps) => {
     ],
   };
 
+  console.log(logs);
   const colSet = { flex: 1, alignItems: "center" as const };
   const colValue = { flex: 2, alignItems: "center" as const };
 

@@ -6,7 +6,7 @@ import {
   Utensils,
 } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
-import { SectionCard } from "../components/SectionCard";
+import { SectionCard } from "../_components/SectionCard";
 
 const sections = [
   { name: "Training", icon: Dumbbell, route: "/(tabs)/training" },

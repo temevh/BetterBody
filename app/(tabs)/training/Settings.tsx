@@ -1,10 +1,10 @@
-import { Colors } from "@/app/theme";
-import { Goal, Level, SettingsState, Split } from "@/app/types";
+import { Colors } from "@/app/_theme";
+import { Goal, Level, SettingsState, Split } from "@/app/_types";
 import { ArrowLeft, Sparkles } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../styles";
+import { GlobalStyles } from "../../_styles";
 
-export function Settings({
+export default function Settings({
   settings,
   setSettings,
   onGenerate,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 24,
-    paddingBottom: 40, 
+    paddingBottom: 40,
     rowGap: 32,
   },
   label: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontWeight: "500",
     textTransform: "capitalize",
-    fontSize: 16, 
+    fontSize: 16,
   },
   optionTextActive: {
     color: Colors.textPrimary,
@@ -219,10 +219,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    gap: 8, 
+    gap: 8,
   },
   day: {
-    width: 40, 
+    width: 40,
     height: 40,
     borderRadius: 12,
     backgroundColor: Colors.surface,
@@ -233,6 +233,6 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: Colors.background,
     borderTopWidth: 1,
-    borderTopColor: Colors.surface, 
+    borderTopColor: Colors.surface,
   },
 });

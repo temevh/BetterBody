@@ -1,8 +1,8 @@
-import { Exercise, Goal, Level, Split } from "@/app/types";
+import { Exercise, Goal, Level, Split } from "@/app/_types";
 import { useState } from "react";
-import { Generator } from "./Generator";
-import { Settings } from "./Settings";
-import { Workout } from "./Workout";
+import Generator from "./Generator";
+import Settings from "./Settings";
+import Workout from "./Workout";
 
 export default function TrainingScreen() {
   const [settings, setSettings] = useState({

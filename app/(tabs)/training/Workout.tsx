@@ -1,11 +1,11 @@
-import { Colors } from "@/app/theme";
-import { Exercise } from "@/app/types";
+import { Colors } from "@/app/_theme";
+import { Exercise } from "@/app/_types";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../styles";
+import { GlobalStyles } from "../../_styles";
 import Completed from "./Completed";
-import RestTimer from "./components/RestTimer";
-import WorkoutCard from "./components/WorkoutCard";
+import RestTimer from "./_components/RestTimer";
+import WorkoutCard from "./_components/WorkoutCard";
 
 export interface SetLog {
   id: string;
@@ -18,7 +18,7 @@ interface WorkoutProps {
   workout: Exercise[];
 }
 
-export function Workout({ workout }: WorkoutProps) {
+export default function Workout({ workout }: WorkoutProps) {
   const [rest, setRest] = useState<number>(150);
   const [timerKey, setTimerKey] = useState<number>(0);
 

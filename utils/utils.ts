@@ -1,6 +1,6 @@
-import { MuscleColors } from "../theme";
-import { Exercise, Goal, Level, Split } from "../types";
-const data = require("../../exercises.json");
+import { MuscleColors } from "@/app/_theme";
+import { Exercise, Goal, Level, Split } from "@/app/_types";
+import { supabase } from "./supabase";
 
 const muscles = [
   "triceps",
@@ -13,11 +13,23 @@ const muscles = [
 ];
 const category = "strength";
 
+export async function fetchExercises(): Promise<Exercise[]> {
+  const { data, error } = await supabase.from("exercises").select();
+  if (error) {
+    console.error("Error fetching exercises:", error);
+    return [];
+  }
+  return (data || []).map((exercise: any) => ({
+    ...exercise,
+  })) as Exercise[];
+}
+
 export const getExercise = (
   level: Level,
   goal: Goal,
   split: Split,
   days: number,
+  availableExercises: Exercise[],
   targetMuscle?: string,
 ): Exercise[] => {
   const result: Exercise[] = [];
@@ -25,8 +37,8 @@ export const getExercise = (
   const musclesToProcess = targetMuscle ? [targetMuscle] : muscles;
 
   for (const muscle of musclesToProcess) {
-    const matchingPrimary = data.filter(
-      (entry: Exercise) => entry.primaryMuscles[0] === muscle,
+    const matchingPrimary = availableExercises.filter(
+      (entry: Exercise) => entry["primary_muscles"][0] === muscle,
     );
 
     const categoryMatch = matchingPrimary.filter(

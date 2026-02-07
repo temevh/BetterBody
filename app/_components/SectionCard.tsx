@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react-native";
 import { Pressable, StyleSheet, Text } from "react-native";
-import { Colors, FontSizes } from "../theme";
+import { Colors, FontSizes } from "../_theme";
 
 export const SectionColors = {
   Training: Colors.training,

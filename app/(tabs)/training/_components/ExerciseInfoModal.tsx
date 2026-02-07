@@ -1,6 +1,6 @@
-import { GlobalStyles } from "@/app/styles";
-import { Colors } from "@/app/theme";
-import { Exercise } from "@/app/types";
+import { GlobalStyles } from "@/app/_styles";
+import { Colors } from "@/app/_theme";
+import { Exercise } from "@/app/_types";
 import { X } from "lucide-react-native";
 import { Modal, Pressable, ScrollView, Text, View } from "react-native";
 
@@ -88,14 +88,14 @@ export default function ExerciseInfoModal({
               <Text style={GlobalStyles.text}>
                 Primary:{" "}
                 <Text style={{ color: Colors.primary }}>
-                  {exercise.primaryMuscles.join(", ").toUpperCase()}
+                  {exercise.primary_muscles.join(", ").toUpperCase()}
                 </Text>
               </Text>
-              {exercise.secondaryMuscles.length > 0 && (
+              {exercise.secondary_muscles.length > 0 && (
                 <Text style={GlobalStyles.text}>
                   Secondary:{" "}
                   <Text style={{ color: Colors.secondary }}>
-                    {exercise.secondaryMuscles.join(", ").toUpperCase()}
+                    {exercise.secondary_muscles.join(", ").toUpperCase()}
                   </Text>
                 </Text>
               )}

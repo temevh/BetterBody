@@ -1,4 +1,4 @@
-import { Colors } from "@/app/theme";
+import { Colors } from "@/app/_theme";
 import { StyleSheet, Text } from "react-native";
 
 export const Chip = ({

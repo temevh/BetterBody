@@ -1,9 +1,9 @@
-import { GlobalStyles } from "@/app/styles";
-import { Colors } from "@/app/theme";
-import { Exercise } from "@/app/types";
+import { GlobalStyles } from "@/app/_styles";
+import { Colors } from "@/app/_theme";
+import { Exercise } from "@/app/_types";
 import { Dumbbell, RefreshCcw } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { getMuscleColor } from "../../utils";
+import { getMuscleColor } from "../../../../utils/utils";
 
 interface ExerciseCardProps {
   exercise: Exercise;
@@ -18,7 +18,7 @@ export const ExerciseCard = ({
   onToggle,
   onRegenerate,
 }: ExerciseCardProps) => {
-  const muscleColor = getMuscleColor(exercise.primaryMuscles[0]);
+  const muscleColor = getMuscleColor(exercise.primary_muscles[0]);
 
   return (
     <View style={GlobalStyles.card}>
@@ -36,7 +36,7 @@ export const ExerciseCard = ({
             <Text
               style={[styles.muscleText, selected && styles.textSelectedMuted]}
             >
-              {exercise.primaryMuscles[0]}
+              {exercise.primary_muscles[0]}
             </Text>
           </View>
 

@@ -1,31 +1,49 @@
-import { Colors } from "@/app/theme";
-import { Exercise, SettingsState } from "@/app/types";
+import { Colors } from "@/app/_theme";
+import { Exercise, SettingsState } from "@/app/_types";
+import { fetchExercises, getExercise } from "@/utils/utils";
 import { RefreshCw, SaveAllIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../../styles";
-import { getExercise } from "../utils";
-import { ExerciseCard } from "./components/ExerciseCard";
+import { GlobalStyles } from "../../_styles";
+import { ExerciseCard } from "./_components/ExerciseCard";
 
 type GeneratorProps = {
   settings: SettingsState;
   setWorkout: (exercises: Exercise[]) => void;
 };
 
-export function Generator({ settings, setWorkout }: GeneratorProps) {
+export default function Generator({ settings, setWorkout }: GeneratorProps) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [allExercises, setAllExercises] = useState<Exercise[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
+  useEffect(() => {
+    loadExercises();
+  }, []);
+
+  const loadExercises = async () => {
+    const data = await fetchExercises();
+    setAllExercises(data);
+  };
+
   const generateExercises = () => {
+    if (allExercises.length === 0) return;
     const result = getExercise(
       settings.level,
       settings.goal,
       settings.split,
       settings.daysPerWeek,
+      allExercises,
     );
     setExercises(result);
     setSelectedIds(new Set(result.map((e) => e.id)));
   };
+
+  useEffect(() => {
+    if (allExercises.length > 0 && exercises.length === 0) {
+      generateExercises();
+    }
+  }, [allExercises]);
 
   const saveWorkout = () => {
     setWorkout(exercises);
@@ -38,12 +56,12 @@ export function Generator({ settings, setWorkout }: GeneratorProps) {
     muscle: string;
     id: string;
   }) => {
-    console.log("regenerate", muscle, id);
     const result = getExercise(
       settings.level,
       settings.goal,
       settings.split,
       settings.daysPerWeek,
+      allExercises,
       muscle,
     );
     if (result.length > 0) {
@@ -62,10 +80,6 @@ export function Generator({ settings, setWorkout }: GeneratorProps) {
       }
     }
   };
-
-  useEffect(() => {
-    generateExercises();
-  }, []);
 
   const toggleSelect = (id: string) => {
     setSelectedIds((prev) => {
@@ -115,7 +129,7 @@ export function Generator({ settings, setWorkout }: GeneratorProps) {
             onToggle={() => toggleSelect(exercise.id)}
             onRegenerate={() =>
               generateSingleExercise({
-                muscle: exercise.primaryMuscles[0],
+                muscle: exercise.primary_muscles[0],
                 id: exercise.id,
               })
             }

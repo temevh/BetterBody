@@ -5,8 +5,8 @@ export interface Exercise {
   level: Level;
   mechanic: Mechanic | null;
   equipment: Equipment | null;
-  primaryMuscles: Muscle[];
-  secondaryMuscles: Muscle[];
+  primary_muscles: Muscle[];
+  secondary_muscles: Muscle[];
   instructions: string[];
   category: Category;
   images: string[];
