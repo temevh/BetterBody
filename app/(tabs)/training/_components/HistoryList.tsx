@@ -1,6 +1,8 @@
 import { GlobalStyles } from "@/app/_styles";
 import { Colors } from "@/app/_theme";
+import { getWorkouts } from "@/utils/getWorkouts";
 import { ArrowLeft } from "lucide-react-native";
+import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
 
 interface HistoryListProps {
@@ -8,6 +10,15 @@ interface HistoryListProps {
 }
 
 export default function HistoryList({ onBack }: HistoryListProps) {
+  async function fetchWorkouts() {
+    return await getWorkouts();
+  }
+
+  useEffect(() => {
+    const workouts = fetchWorkouts();
+    console.log(workouts);
+  });
+
   return (
     <View style={GlobalStyles.container}>
       <View

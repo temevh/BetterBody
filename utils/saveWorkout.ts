@@ -1,4 +1,5 @@
 import { SetLog } from "@/app/_types";
+import { useGetUser } from "@/hooks/useGetUser";
 import { supabase } from "./supabase";
 
 type ExerciseInput = {
@@ -12,12 +13,7 @@ type SaveWorkoutPayload = {
 };
 
 export async function saveWorkout(workoutData: SaveWorkoutPayload) {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError || !user) throw new Error("Not authenticated");
+  const user = await useGetUser();
 
   const date = new Date();
 
