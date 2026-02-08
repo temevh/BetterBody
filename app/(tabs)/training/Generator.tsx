@@ -3,7 +3,14 @@ import { Exercise, SettingsState } from "@/app/_types";
 import { fetchExercises, getExercise } from "@/utils/utils";
 import { RefreshCw, SaveAllIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { GlobalStyles } from "../../_styles";
 import { ExerciseCard } from "./_components/ExerciseCard";
 
@@ -16,6 +23,8 @@ export default function Generator({ settings, setWorkout }: GeneratorProps) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [allExercises, setAllExercises] = useState<Exercise[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [workoutName, setWorkoutName] = useState<string>("Your workout");
+  const [editName, setEditName] = useState<boolean>(false);
 
   useEffect(() => {
     loadExercises();
@@ -94,7 +103,26 @@ export default function Generator({ settings, setWorkout }: GeneratorProps) {
   return (
     <View style={GlobalStyles.container}>
       <View style={GlobalStyles.header}>
-        <Text style={GlobalStyles.title}>Your Workout</Text>
+        <Pressable
+          style={GlobalStyles.title}
+          onPress={() => {
+            setEditName(!editName);
+          }}
+        >
+          {editName ? (
+            <TextInput
+              value={workoutName}
+              onChangeText={setWorkoutName}
+              autoFocus
+              style={GlobalStyles.title}
+              onBlur={() => setEditName(false)}
+            />
+          ) : (
+            <Pressable onPress={() => setEditName(true)}>
+              <Text style={GlobalStyles.title}>{workoutName}</Text>
+            </Pressable>
+          )}
+        </Pressable>
 
         <View style={[GlobalStyles.row, { gap: 8 }]}>
           <Text
