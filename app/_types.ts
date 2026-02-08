@@ -93,3 +93,10 @@ export type SettingsState = {
   daysPerWeek: number;
   goal: Goal;
 };
+
+export interface SetLog {
+  id: string;
+  reps: number | null;
+  weight: number | null;
+  completed: boolean;
+}

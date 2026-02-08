@@ -17,7 +17,7 @@ interface WorkoutCardProps {
     exerciseId: string,
     index: number,
     field: "reps" | "weight",
-    value: string,
+    value: number | null,
   ) => void;
   toggleSet: (exerciseId: string, index: number) => void;
   addSet: (exerciseId: string) => void;
@@ -160,10 +160,12 @@ export default function WorkoutCard({
             placeholder="-"
             placeholderTextColor={Colors.textSecondary}
             keyboardType="numeric"
-            value={set.weight}
+            value={set.weight?.toString() ?? ""}
             onChangeText={(text) => {
-              if (/^\d*\.?\d*$/.test(text)) {
-                updateSet(exercise.id, index, "weight", text);
+              if (text === "") {
+                updateSet(exercise.id, index, "weight", null);
+              } else if (/^\d*\.?\d*$/.test(text)) {
+                updateSet(exercise.id, index, "weight", parseFloat(text));
               }
             }}
           />
@@ -177,10 +179,12 @@ export default function WorkoutCard({
             placeholder="-"
             placeholderTextColor={Colors.textSecondary}
             keyboardType="numeric"
-            value={set.reps}
+            value={set.reps?.toString() ?? ""}
             onChangeText={(text) => {
-              if (/^\d*$/.test(text)) {
-                updateSet(exercise.id, index, "reps", text);
+              if (text === "") {
+                updateSet(exercise.id, index, "reps", null);
+              } else if (/^\d*$/.test(text)) {
+                updateSet(exercise.id, index, "reps", parseInt(text, 10));
               }
             }}
           />

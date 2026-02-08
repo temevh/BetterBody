@@ -1,18 +1,12 @@
 import { Colors } from "@/app/_theme";
-import { Exercise } from "@/app/_types";
+import { Exercise, SetLog } from "@/app/_types";
+import { saveWorkout } from "@/utils/saveWorkout";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../_styles";
 import Completed from "./Completed";
 import RestTimer from "./_components/RestTimer";
 import WorkoutCard from "./_components/WorkoutCard";
-
-export interface SetLog {
-  id: string;
-  reps: string;
-  weight: string;
-  completed: boolean;
-}
 
 interface WorkoutProps {
   workout: Exercise[];
@@ -29,9 +23,9 @@ export default function Workout({ workout }: WorkoutProps) {
         .fill(0)
         .map((_, i) => ({
           id: Math.random().toString(36).substr(2, 9),
-          reps: "",
-          weight: "",
-          completed: false,
+          reps: 10,
+          weight: 10,
+          completed: true,
         }));
     });
     return initialLogs;
@@ -43,7 +37,7 @@ export default function Workout({ workout }: WorkoutProps) {
     exerciseId: string,
     index: number,
     field: "reps" | "weight",
-    value: string,
+    value: number | null,
   ) => {
     setLogs((prev) => {
       const exerciseLogs = [...(prev[exerciseId] || [])];
@@ -70,8 +64,8 @@ export default function Workout({ workout }: WorkoutProps) {
       const exerciseLogs = [...(prev[exerciseId] || [])];
       exerciseLogs.push({
         id: Math.random().toString(36).substr(2, 9),
-        reps: "",
-        weight: "",
+        reps: null,
+        weight: null,
         completed: false,
       });
       return { ...prev, [exerciseId]: exerciseLogs };
@@ -86,8 +80,21 @@ export default function Workout({ workout }: WorkoutProps) {
     });
   };
 
-  const saveWorkout = () => {
-    setCompleted(true);
+  const savePressed = async () => {
+    const toSave = Object.entries(logs).map(([exerciseId, sets]) => ({
+      exerciseId,
+      sets: sets.map((s) => ({
+        id: exerciseId,
+        reps: s.reps,
+        weight: s.weight,
+        completed: s.completed,
+      })),
+    }));
+
+    const response = await saveWorkout(toSave);
+    if (response) {
+      setCompleted(true);
+    }
   };
 
   if (completed) {
@@ -130,7 +137,7 @@ export default function Workout({ workout }: WorkoutProps) {
             deleteSet={deleteSet}
           />
         ))}
-        <Pressable style={styles.saveWorkoutButton} onPress={saveWorkout}>
+        <Pressable style={styles.saveWorkoutButton} onPress={savePressed}>
           <Text style={GlobalStyles.textLarge}>Complete workout</Text>
         </Pressable>
         <Pressable style={styles.cancelWorkoutButton}>

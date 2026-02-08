@@ -1,9 +1,9 @@
 import { GlobalStyles } from "@/app/_styles";
 import { Colors } from "@/app/_theme";
+import { SetLog } from "@/app/_types";
 import { useRouter } from "expo-router";
 import { CheckCircle2, Save, Trophy } from "lucide-react-native";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { SetLog } from "./Workout";
 
 interface CompletedProps {
   logs: Record<string, SetLog[]>;
@@ -12,157 +12,6 @@ interface CompletedProps {
 const Completed = ({ logs }: CompletedProps) => {
   const router = useRouter();
   const currentDate = new Date().toDateString();
-
-  logs = {
-    Decline_EZ_Bar_Triceps_Extension: [
-      {
-        id: "j8pe137n7",
-        reps: "12",
-        weight: "30",
-        completed: false,
-      },
-      {
-        id: "jqhnl62bf",
-        reps: "10",
-        weight: "32.5",
-        completed: false,
-      },
-      {
-        id: "j897zr249",
-        reps: "10",
-        weight: "32.5",
-        completed: false,
-      },
-      {
-        id: "pbyd6ufd8",
-        reps: "8",
-        weight: "35",
-        completed: false,
-      },
-    ],
-    Incline_Inner_Biceps_Curl: [
-      {
-        id: "y8pywa5zc",
-        reps: "12",
-        weight: "14",
-        completed: false,
-      },
-      {
-        id: "ux74a22d3",
-        reps: "10",
-        weight: "16",
-        completed: false,
-      },
-      {
-        id: "ldlm31t4e",
-        reps: "10",
-        weight: "16",
-        completed: false,
-      },
-    ],
-    Isometric_Wipers: [
-      {
-        id: "8nu94hnij",
-        reps: "20",
-        weight: "BW",
-        completed: false,
-      },
-      {
-        id: "hr5blbica",
-        reps: "20",
-        weight: "BW",
-        completed: false,
-      },
-      {
-        id: "6wk1qkdua",
-        reps: "15",
-        weight: "BW",
-        completed: false,
-      },
-    ],
-    Low_Pulley_Row_To_Neck: [
-      {
-        id: "xkvjp9o2n",
-        reps: "12",
-        weight: "45",
-        completed: false,
-      },
-      {
-        id: "1y0fnfrh7",
-        reps: "10",
-        weight: "50",
-        completed: false,
-      },
-      {
-        id: "zhx1y6947",
-        reps: "10",
-        weight: "50",
-        completed: false,
-      },
-    ],
-    Hip_Flexion_with_Band: [
-      {
-        id: "clmbz7y2e",
-        reps: "15",
-        weight: "Light band",
-        completed: false,
-      },
-      {
-        id: "kwnkiq3of",
-        reps: "15",
-        weight: "Medium band",
-        completed: false,
-      },
-      {
-        id: "k7gw04f9x",
-        reps: "12",
-        weight: "Medium band",
-        completed: false,
-      },
-    ],
-    Lying_Leg_Curls: [
-      {
-        id: "6pz39cnyv",
-        reps: "12",
-        weight: "40",
-        completed: false,
-      },
-      {
-        id: "5o4ub3c09",
-        reps: "10",
-        weight: "45",
-        completed: false,
-      },
-      {
-        id: "7elfj3r9k",
-        reps: "10",
-        weight: "45",
-        completed: false,
-      },
-    ],
-    Bent_Over_Barbell_Row: [
-      {
-        id: "hn5nm3hm5",
-        reps: "11",
-        weight: "70",
-        completed: false,
-      },
-      {
-        id: "bw1d30qk2",
-        reps: "10",
-        weight: "75",
-        completed: false,
-      },
-      {
-        id: "8e0aa5j5k",
-        reps: "8",
-        weight: "80",
-        completed: false,
-      },
-    ],
-  };
-
-  console.log(logs);
   const colSet = { flex: 1, alignItems: "center" as const };
   const colValue = { flex: 2, alignItems: "center" as const };
 
@@ -182,7 +31,8 @@ const Completed = ({ logs }: CompletedProps) => {
       <ScrollView contentContainerStyle={{ paddingBottom: 80, gap: 16 }}>
         {Object.entries(logs).map(([exerciseId, sets]) => {
           const activeSets = sets.filter(
-            (set) => set.completed || (set.reps && set.weight),
+            (set) =>
+              set.completed || (set.reps !== null && set.weight !== null),
           );
 
           if (activeSets.length === 0) return null;
@@ -316,7 +166,7 @@ const Completed = ({ logs }: CompletedProps) => {
           style={[
             GlobalStyles.button,
             {
-              backgroundColor: Colors.primary,
+              backgroundColor: Colors.training,
               shadowColor: Colors.primary,
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.3,
@@ -328,7 +178,7 @@ const Completed = ({ logs }: CompletedProps) => {
         >
           <Save size={20} color="white" />
           <Text style={[GlobalStyles.buttonText, { fontSize: 18 }]}>
-            Save Workout
+            Finish Workout
           </Text>
         </Pressable>
       </View>
