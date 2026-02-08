@@ -12,6 +12,12 @@ export interface Exercise {
   images: string[];
 }
 
+export type WorkoutType = {
+  exercises: Exercise[];
+  name: string;
+  notes: string;
+};
+
 // Enums
 export enum Force {
   Static = "static",

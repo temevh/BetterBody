@@ -3,10 +3,9 @@ import { Colors } from "@/app/_theme";
 import { Check, Info, Plus, Trash2 } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { Exercise } from "@/app/_types";
+import { Exercise, SetLog } from "@/app/_types";
 import { useState } from "react";
 import { getMuscleColor } from "../../../../utils/utils";
-import { SetLog } from "../Workout";
 
 import ExerciseInfoModal from "./ExerciseInfoModal";
 
@@ -55,8 +54,12 @@ export default function WorkoutCard({
         GlobalStyles.card,
         {
           padding: 16,
-          backgroundColor: allCompleted ? Colors.succeed : Colors.surface,
-          opacity: allCompleted ? 0.8 : 1,
+          backgroundColor: allCompleted
+            ? Colors.surfaceHighlight
+            : Colors.surface,
+          borderColor: allCompleted ? Colors.succeed : "transparent",
+          borderWidth: 1,
+          opacity: 1,
         },
       ]}
     >
@@ -75,10 +78,12 @@ export default function WorkoutCard({
           ]}
         />
         <Text style={GlobalStyles.text}>{exercise.name} </Text>
+        {allCompleted && <Check size={20} color={Colors.succeed} />}
         <Pressable
           onPress={() => {
             setShowInfo(!showInfo);
           }}
+          style={{ marginLeft: "auto" }}
         >
           <Info size={24} color={Colors.textSecondary} />
         </Pressable>

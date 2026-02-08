@@ -1,5 +1,5 @@
 import { Colors } from "@/app/_theme";
-import { Exercise, SettingsState } from "@/app/_types";
+import { Exercise, SettingsState, WorkoutType } from "@/app/_types";
 import { fetchExercises, getExercise } from "@/utils/utils";
 import { RefreshCw, SaveAllIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ import { ExerciseCard } from "./_components/ExerciseCard";
 
 type GeneratorProps = {
   settings: SettingsState;
-  setWorkout: (exercises: Exercise[]) => void;
+  setWorkout: (workout: WorkoutType) => void;
 };
 
 export default function Generator({ settings, setWorkout }: GeneratorProps) {
@@ -55,7 +55,7 @@ export default function Generator({ settings, setWorkout }: GeneratorProps) {
   }, [allExercises]);
 
   const saveWorkout = () => {
-    setWorkout(exercises);
+    setWorkout({ exercises: exercises, name: workoutName, notes: "" });
   };
 
   const generateSingleExercise = ({

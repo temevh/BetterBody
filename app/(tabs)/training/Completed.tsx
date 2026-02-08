@@ -2,7 +2,7 @@ import { GlobalStyles } from "@/app/_styles";
 import { Colors } from "@/app/_theme";
 import { SetLog } from "@/app/_types";
 import { useRouter } from "expo-router";
-import { CheckCircle2, Save, Trophy } from "lucide-react-native";
+import { CheckCircle2, Trophy } from "lucide-react-native";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 interface CompletedProps {
@@ -176,7 +176,6 @@ const Completed = ({ logs }: CompletedProps) => {
           ]}
           onPress={() => router.replace("/")}
         >
-          <Save size={20} color="white" />
           <Text style={[GlobalStyles.buttonText, { fontSize: 18 }]}>
             Finish Workout
           </Text>

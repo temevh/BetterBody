@@ -6,26 +6,34 @@ type ExerciseInput = {
   sets: SetLog[];
 };
 
-export async function saveWorkout(exercises: ExerciseInput[]) {
+type SaveWorkoutPayload = {
+  name: string;
+  exercises: ExerciseInput[];
+};
+
+export async function saveWorkout(workoutData: SaveWorkoutPayload) {
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
-  console.log(exercises);
 
   if (userError || !user) throw new Error("Not authenticated");
+
   const date = new Date();
 
   const { data: workout, error: workoutError } = await supabase
     .from("workouts")
-    .insert({ user_id: user.id, performed_at: date })
+    .insert({
+      user_id: user.id,
+      performed_at: date,
+      name: workoutData.name,
+    })
     .select()
     .single();
 
-  console.log("workouts data", workout);
   if (workoutError) throw workoutError;
 
-  const workoutExercisesPayload = exercises.map((ex, index) => ({
+  const workoutExercisesPayload = workoutData.exercises.map((ex, index) => ({
     workout_id: workout.id,
     exercise_id: ex.exerciseId,
     order_index: index,
@@ -39,7 +47,7 @@ export async function saveWorkout(exercises: ExerciseInput[]) {
   if (weError) throw weError;
 
   const setsPayload = workoutExercises.flatMap((we, exIndex) =>
-    exercises[exIndex].sets.map((set, setIndex) => ({
+    workoutData.exercises[exIndex].sets.map((set, setIndex) => ({
       workout_exercise_id: we.id,
       set_index: setIndex,
       reps: set.reps,

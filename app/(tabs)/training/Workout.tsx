@@ -1,5 +1,5 @@
 import { Colors } from "@/app/_theme";
-import { Exercise, SetLog } from "@/app/_types";
+import { SetLog, WorkoutType } from "@/app/_types";
 import { saveWorkout } from "@/utils/saveWorkout";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -9,7 +9,7 @@ import RestTimer from "./_components/RestTimer";
 import WorkoutCard from "./_components/WorkoutCard";
 
 interface WorkoutProps {
-  workout: Exercise[];
+  workout: WorkoutType;
 }
 
 export default function Workout({ workout }: WorkoutProps) {
@@ -18,7 +18,7 @@ export default function Workout({ workout }: WorkoutProps) {
 
   const [logs, setLogs] = useState<Record<string, SetLog[]>>(() => {
     const initialLogs: Record<string, SetLog[]> = {};
-    workout.forEach((exercise) => {
+    workout.exercises.forEach((exercise) => {
       initialLogs[exercise.id] = Array(3)
         .fill(0)
         .map((_, i) => ({
@@ -81,15 +81,19 @@ export default function Workout({ workout }: WorkoutProps) {
   };
 
   const savePressed = async () => {
-    const toSave = Object.entries(logs).map(([exerciseId, sets]) => ({
-      exerciseId,
-      sets: sets.map((s) => ({
-        id: exerciseId,
-        reps: s.reps,
-        weight: s.weight,
-        completed: s.completed,
+    const toSave = {
+      name: workout.name,
+      exercises: Object.entries(logs).map(([exerciseId, sets]) => ({
+        exerciseId,
+        sets: sets.map((s) => ({
+          id: exerciseId,
+          reps: s.reps,
+          weight: s.weight,
+          completed: s.completed,
+        })),
       })),
-    }));
+    };
+    console.log("tosave", toSave);
 
     const response = await saveWorkout(toSave);
     if (response) {
@@ -111,7 +115,7 @@ export default function Workout({ workout }: WorkoutProps) {
             justifyContent: "space-between",
           }}
         >
-          <Text style={GlobalStyles.title}>Current Workout</Text>
+          <Text style={GlobalStyles.title}>{workout.name}</Text>
           <RestTimer
             key={timerKey}
             duration={rest}
@@ -121,12 +125,12 @@ export default function Workout({ workout }: WorkoutProps) {
           />
         </View>
         <Text style={GlobalStyles.textSecondary}>
-          {workout.length} Exercises
+          {workout.exercises.length} Exercises
         </Text>
       </View>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 20, gap: 10 }}>
-        {workout.map((exercise) => (
+        {workout.exercises.map((exercise) => (
           <WorkoutCard
             key={exercise.id}
             exercise={exercise}

@@ -1,10 +1,17 @@
-import { Exercise, Goal, Level, Split } from "@/app/_types";
+import { Goal, Level, Split, WorkoutType } from "@/app/_types";
 import { useState } from "react";
+import ExerciseList from "./_components/ExerciseList";
+import HistoryList from "./_components/HistoryList";
+import SavedWorkouts from "./_components/SavedWorkouts";
+import TrainingMenu from "./_components/TrainingMenu";
 import Generator from "./Generator";
 import Settings from "./Settings";
 import Workout from "./Workout";
 
+type ViewState = "menu" | "new" | "history" | "saved" | "exercises";
+
 export default function TrainingScreen() {
+  const [view, setView] = useState<ViewState>("menu");
   const [settings, setSettings] = useState({
     level: Level.Beginner,
     split: Split.FullBody,
@@ -13,26 +20,44 @@ export default function TrainingScreen() {
   });
 
   const [generated, setGenerated] = useState(false);
-  const [workout, setWorkout] = useState<Exercise[]>([]);
+  const [workout, setWorkout] = useState<WorkoutType>({
+    exercises: [],
+    name: "",
+    notes: "",
+  });
 
   const onGenerate = () => {
-    console.log(settings);
     setGenerated(true);
   };
 
-  if (workout.length > 0) {
+  if (workout.exercises.length > 0) {
     return <Workout workout={workout} />;
   }
 
-  if (generated) {
-    return <Generator settings={settings} setWorkout={setWorkout} />;
+  if (view === "history") {
+    return <HistoryList onBack={() => setView("menu")} />;
   }
 
-  return (
-    <Settings
-      settings={settings}
-      setSettings={setSettings}
-      onGenerate={onGenerate}
-    />
-  );
+  if (view === "saved") {
+    return <SavedWorkouts onBack={() => setView("menu")} />;
+  }
+
+  if (view === "exercises") {
+    return <ExerciseList onBack={() => setView("menu")} />;
+  }
+
+  if (view === "new") {
+    if (generated) {
+      return <Generator settings={settings} setWorkout={setWorkout} />;
+    }
+    return (
+      <Settings
+        settings={settings}
+        setSettings={setSettings}
+        onGenerate={onGenerate}
+      />
+    );
+  }
+
+  return <TrainingMenu onSelect={setView} />;
 }
