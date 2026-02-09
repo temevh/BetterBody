@@ -1,10 +1,10 @@
 import { Goal, Level, Split, WorkoutType } from "@/app/_types";
 import { useState } from "react";
-import ExerciseList from "./_components/ExerciseList";
-import HistoryList from "./_components/HistoryList";
-import SavedWorkouts from "./_components/SavedWorkouts";
 import TrainingMenu from "./_components/TrainingMenu";
+import ExerciseList from "./ExerciseList";
 import Generator from "./Generator";
+import History from "./History";
+import SavedWorkouts from "./SavedWorkouts";
 import Settings from "./Settings";
 import Workout from "./Workout";
 
@@ -35,7 +35,7 @@ export default function TrainingScreen() {
   }
 
   if (view === "history") {
-    return <HistoryList onBack={() => setView("menu")} />;
+    return <History onBack={() => setView("menu")} />;
   }
 
   if (view === "saved") {
@@ -55,6 +55,7 @@ export default function TrainingScreen() {
         settings={settings}
         setSettings={setSettings}
         onGenerate={onGenerate}
+        onBack={() => setView("menu")}
       />
     );
   }

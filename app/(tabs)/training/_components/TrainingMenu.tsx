@@ -1,10 +1,75 @@
 import { GlobalStyles } from "@/app/_styles";
 import { Colors } from "@/app/_theme";
-import { Dumbbell, History, PlusSquare, Save } from "lucide-react-native";
+import {
+  Dumbbell,
+  History,
+  LucideIcon,
+  PlusSquare,
+  Save,
+} from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface TrainingMenuProps {
   onSelect: (option: "new" | "history" | "saved" | "exercises") => void;
+}
+
+const items = [
+  {
+    path: "new",
+    header: "New Workout",
+    subHeader: "Generate a personalized workout",
+    icon: PlusSquare,
+    color: Colors.primary,
+  },
+  {
+    path: "history",
+    header: "History",
+    subHeader: "View your past workouts",
+    icon: History,
+    color: Colors.metrics,
+  },
+  {
+    path: "saved",
+    header: "Saved Workouts",
+    subHeader: "Access your favorite templates",
+    icon: Save,
+    color: Colors.gold,
+  },
+  {
+    path: "exercises",
+    header: "Exercises",
+    subHeader: "Browse exercise library",
+    icon: Dumbbell,
+    color: Colors.stretching,
+  },
+] as const;
+
+function TrainingMenuCard({
+  path,
+  header,
+  subHeader,
+  icon: Icon,
+  color,
+  onSelect,
+}: {
+  path: TrainingMenuProps["onSelect"] extends (o: infer T) => void ? T : never;
+  header: string;
+  subHeader: string;
+  icon: LucideIcon;
+  color: string;
+  onSelect: TrainingMenuProps["onSelect"];
+}) {
+  return (
+    <Pressable style={styles.menuItem} onPress={() => onSelect(path)}>
+      <View style={[styles.iconContainer, { backgroundColor: color }]}>
+        <Icon size={24} color="white" />
+      </View>
+      <View>
+        <Text style={GlobalStyles.textLarge}>{header}</Text>
+        <Text style={GlobalStyles.textSecondary}>{subHeader}</Text>
+      </View>
+    </Pressable>
+  );
 }
 
 export default function TrainingMenu({ onSelect }: TrainingMenuProps) {
@@ -14,67 +79,9 @@ export default function TrainingMenu({ onSelect }: TrainingMenuProps) {
         <Text style={GlobalStyles.title}>Training</Text>
       </View>
       <View style={{ padding: 16, gap: 16 }}>
-        <Pressable style={styles.menuItem} onPress={() => onSelect("new")}>
-          <View
-            style={[styles.iconContainer, { backgroundColor: Colors.primary }]}
-          >
-            <PlusSquare size={24} color="white" />
-          </View>
-          <View>
-            <Text style={GlobalStyles.textLarge}>New Workout</Text>
-            <Text style={GlobalStyles.textSecondary}>
-              Generate a personalized workout
-            </Text>
-          </View>
-        </Pressable>
-
-        <Pressable style={styles.menuItem} onPress={() => onSelect("history")}>
-          <View
-            style={[styles.iconContainer, { backgroundColor: Colors.metrics }]}
-          >
-            <History size={24} color="white" />
-          </View>
-          <View>
-            <Text style={GlobalStyles.textLarge}>History</Text>
-            <Text style={GlobalStyles.textSecondary}>
-              View your past workouts
-            </Text>
-          </View>
-        </Pressable>
-
-        <Pressable style={styles.menuItem} onPress={() => onSelect("saved")}>
-          <View
-            style={[styles.iconContainer, { backgroundColor: Colors.gold }]}
-          >
-            <Save size={24} color="white" />
-          </View>
-          <View>
-            <Text style={GlobalStyles.textLarge}>Saved Workouts</Text>
-            <Text style={GlobalStyles.textSecondary}>
-              Access your favorite templates
-            </Text>
-          </View>
-        </Pressable>
-
-        <Pressable
-          style={styles.menuItem}
-          onPress={() => onSelect("exercises")}
-        >
-          <View
-            style={[
-              styles.iconContainer,
-              { backgroundColor: Colors.stretching },
-            ]}
-          >
-            <Dumbbell size={24} color="white" />
-          </View>
-          <View>
-            <Text style={GlobalStyles.textLarge}>Exercises</Text>
-            <Text style={GlobalStyles.textSecondary}>
-              Browse exercise library
-            </Text>
-          </View>
-        </Pressable>
+        {items.map((item) => (
+          <TrainingMenuCard key={item.path} {...item} onSelect={onSelect} />
+        ))}
       </View>
     </View>
   );

@@ -1,23 +1,26 @@
 import { GlobalStyles } from "@/app/_styles";
 import { Colors } from "@/app/_theme";
+import { WorkoutType } from "@/app/_types";
 import { getWorkouts } from "@/utils/getWorkouts";
 import { ArrowLeft } from "lucide-react-native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 interface HistoryListProps {
   onBack: () => void;
 }
 
-export default function HistoryList({ onBack }: HistoryListProps) {
-  async function fetchWorkouts() {
-    return await getWorkouts();
-  }
+export default function History({ onBack }: HistoryListProps) {
+  const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
 
   useEffect(() => {
-    const workouts = fetchWorkouts();
-    console.log(workouts);
-  });
+    async function loadWorkouts() {
+      const response = await getWorkouts();
+      setWorkouts(response);
+    }
+
+    loadWorkouts();
+  }, []);
 
   return (
     <View style={GlobalStyles.container}>
@@ -36,6 +39,10 @@ export default function HistoryList({ onBack }: HistoryListProps) {
         <Text style={GlobalStyles.textSecondary}>
           Workout history will appear here.
         </Text>
+        {workouts &&
+          workouts.map((workout) => (
+            <Text key={workout.name}>{workout.name}</Text>
+          ))}
       </View>
     </View>
   );

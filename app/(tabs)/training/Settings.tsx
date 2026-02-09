@@ -8,10 +8,12 @@ export default function Settings({
   settings,
   setSettings,
   onGenerate,
+  onBack,
 }: {
   settings: SettingsState;
   setSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   onGenerate: () => void;
+  onBack: () => void;
 }) {
   const levels: Level[] = [Level.Beginner, Level.Intermediate, Level.Expert];
 
@@ -27,7 +29,7 @@ export default function Settings({
     <View style={GlobalStyles.container}>
       {/* Header */}
       <View style={GlobalStyles.header}>
-        <Pressable onPress={() => {}} style={styles.backButton}>
+        <Pressable onPress={onBack} style={styles.backButton}>
           <ArrowLeft size={24} color="#9CA3AF" />
         </Pressable>
 

@@ -35,6 +35,7 @@ export async function getWorkouts() {
     .order("performed_at", { ascending: false })
     .order("order_index", { foreignTable: "workout_exercises" })
     .order("set_index", { foreignTable: "workout_exercises.sets" });
+  console.log(data);
 
   if (error) throw error;
 
